@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+	<title>Phytoplankton Bloom</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+	<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+
+
+	<link rel="icon" href="images/favicon.ico" type="image/gif">
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="
+	anonymous">
+	<link rel="stylesheet" href="assets/css/tank.css"/>
+
+
+</head>
+<body class="is-preload">
+
+	<!-- Sidebar for sliders-->
+	<section id="sidebar">
+		<div class="inner">
+			<nav>
+
+
+
+				<ul>
+
+					<li><a href="index.html" style="margin-bottom: 400px;">Go Back</a></li>
+
+					<!--Light-->
+					<li><a>Light</a>
+						<div class="slidecontainer">
+							<input type="range" min="1" max="100" value="50" class="slider" id="lightRange">
+							<p>Intensity: <span id="lightVal"></span></p>
+						</div></li>
+
+						<!-- Depth change / Mixture-->
+						<li><a>Date</a>
+							<div class="slidecontainer">
+								<input type="range" min="1" max="365" value="1" class="slider" id="dateRange">
+								<p>Day: <span id="dateVal"></span></p>
+							</div></li>
+
+							<!-- Depth change / Mixture-->
+							<li><a>Depth Change</a>
+								<div class="slidecontainer">
+									<input type="range" min="1" max="100" value="50" class="slider" id="depthRange">
+									<p>Depth (meters): <span id="depthVal"></span></p>
+								</div></li>
+
+							</ul>
+						</nav>
+					</div>
+				</section>
+
+				<!-- Wrapper -->
+				<div id="wrapper">
+
+					<!-- Intro -->
+					<section id="intro" class="wrapper style1 fullscreen fade-up">
+						<div class="inner">
+							<h1>Experiment 1</h1>
+							<br>
+
+							<div class="tankWrapper"></div>
+							<p>Description Text: Pellentesque urna tellus, varius sit amet accumsan sed, convallis ut libero.</p>
+							<p>Students will use the </p>
+
+							<button id="onetext" onclick="setOneText()">Show given variable</button>
+							<button id="twotext" onclick="setTwoText()">Show two variables</button>
+							<br>
+							<br>
+							<button id="color" onclick="backFillColor()">Fill Color</button>
+							<br>
+							<br>
+							<button id="high" onclick="high()">High</button>
+							<button id="mid" onclick="mid()">Mid</button>
+							<button id="low" onclick="low()">Low</button>
+							<br>
+							<br>
+
+							<button onclick="setDecimalZero()">No Decimal</button>
+							<button onclick="setDecimalOne()">One Decimal</button>
+							<button onclick="setDecimalTwo()">Two Decimal</button>
+
+							<br>
+							<br>
+							<br>
+							<br>
+							<button class="pull-left" onclick="myFunction(lightVal, dateVal, depthVal)">Check Solution</button>
+
+
+							<h3 style="margin-top: 10%;" id="response"></h3>
+
+
+
+						</div>
+					</section>
+
+					<!-- Footer -->
+					<footer id="footer" class="wrapper style1-alt">
+						<div class="inner">
+							<ul class="menu">
+								<li></li>
+							</ul>
+						</div>
+					</footer>
+
+					<!-- Scripts -->
+					<script src="assets/js/jquery.min.js"></script>
+					<script src="assets/js/jquery.scrollex.min.js"></script>
+					<script src="assets/js/jquery.scrolly.min.js"></script>
+					<script src="assets/js/browser.min.js"></script>
+					<script src="assets/js/breakpoints.min.js"></script>
+					<script src="assets/js/util.js"></script>
+					<script src="assets/js/main.js"></script>
+					<script src="scripts/slider.js"></script>
+					<script type="text/javascript" src="scripts/tank.js"></script>
+					<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+				</body>
+				</html>
