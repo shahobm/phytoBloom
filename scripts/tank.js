@@ -1290,7 +1290,7 @@ let thresholds = [
     name: 'Low Depth',
     value: 10,
     type: 'Low',
-    alarm: true
+    alarm: false
   }
 ];
 // inital values
@@ -1349,7 +1349,7 @@ function setTwoText() {
   tank.setSupportLabelText(getNow(), "bottom label");
 }
 
-function backFillColor() {
+function bloomColor() {
   tank.updateColor("green");
 }
 
@@ -1376,11 +1376,5 @@ function tower() {
   tank.tankType = 'tower';
   delete tank.topMarkerFontColor;
   delete tank.bottomMarkerFontColor;
-  tank.redraw();
-}
-function round() {
-  tank.tankType = 'round';
-  tank.topMarkerFontColor = "#fafafa";
-  tank.bottomMarkerFontColor = "#fafafa";
   tank.redraw();
 }

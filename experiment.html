@@ -44,7 +44,7 @@
 						<!-- Depth change / Mixture-->
 						<li><a>Date</a>
 							<div class="slidecontainer">
-								<input type="range" min="1" max="365" value="1" class="slider" id="dateRange">
+								<input type="range" min="1" max="365" value="50" class="slider" id="dateRange">
 								<p>Day: <span id="dateVal"></span></p>
 							</div></li>
 
@@ -69,15 +69,22 @@
 							<h1>Experiment 1</h1>
 							<br>
 
+							<!-- The tank -->
 							<div class="tankWrapper"></div>
-							<p>Description Text: Pellentesque urna tellus, varius sit amet accumsan sed, convallis ut libero.</p>
-							<p>Students will use the </p>
+
+							<p>Description Text:</p>
+							<p>Students will use the Sverdrup critical-depth model to determine the necessary variables to initiate a spring bloom.
+							Given some scenario and some predetermine variables, students may show their understanding by using the algorithim to determine other missing variables where a bloom will occur.
+							<br>
+							As the student solves the model, the program may tell the student whether a given variable is close to a correct solution, or if a solution is too high or low. It may also accept solutions within a certain range. This includes light intensity/angle, day of the year, and depth. But may also include O2 or CO2 levels and other variables. Colors of the tank may also change such that the depth slider represents the critical/mixing depth rather than the total water depth.
+							<br>
+							Students may click on "show variables" to view given variables in the model and hover over markers on the right of the tank to view critical information. Using the day of the year slider will show the cooresponding date on the tank.</p>
 
 							<button id="onetext" onclick="setOneText()">Show given variable</button>
 							<button id="twotext" onclick="setTwoText()">Show two variables</button>
 							<br>
 							<br>
-							<button id="color" onclick="backFillColor()">Fill Color</button>
+							<button id="color" onclick="bloomColor()">Show Bloom</button>
 							<br>
 							<br>
 							<button id="high" onclick="high()">High</button>
@@ -90,7 +97,6 @@
 							<button onclick="setDecimalOne()">One Decimal</button>
 							<button onclick="setDecimalTwo()">Two Decimal</button>
 
-							<br>
 							<br>
 							<br>
 							<br>

@@ -44,8 +44,8 @@ function myFunction(currentLight) {
 		document.getElementById("response").innerHTML = "Your light value is not 30";
 	}
 	// if date is incorrect
-	else if (dateOutput.innerHTML != 30){
-		document.getElementById("response").innerHTML = "Your date value is not 30";
+	else if (dateOutput.innerHTML != 1){
+		document.getElementById("response").innerHTML = "Your date value is not 10";
 	}
 	// if depth is incorrect
 	else if (depthOutput.innerHTML != 30){
@@ -53,7 +53,9 @@ function myFunction(currentLight) {
 	}
 	// if all is correct
 	else {
+	tank.updateColor("green");
 	document.getElementById("response").innerHTML = "All variables are 30";
+
 	}
 }
 
