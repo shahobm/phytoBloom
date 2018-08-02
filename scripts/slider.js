@@ -21,7 +21,7 @@ dateOutput.innerHTML = dateSlider.value;
 dateSlider.oninput = function() {
 	dateOutput.innerHTML = this.value;
 	tank.updateChangeDateValue(this.value);
-	dateFromDay(this.value);
+	tank.setSupportLabelText(dateFromDay(this.value));
 
 }
 
@@ -37,7 +37,7 @@ depthSlider.oninput = function() {
 
 // check students values for correct solution
 
-function myFunction(currentLight) {
+function checkSolution(currentLight) {
 
 	// if light is incorrect
 	if (lightOutput.innerHTML != 30){
@@ -45,7 +45,7 @@ function myFunction(currentLight) {
 	}
 	// if date is incorrect
 	else if (dateOutput.innerHTML != 1){
-		document.getElementById("response").innerHTML = "Your date value is not 10";
+		document.getElementById("response").innerHTML = "Your date value is not 1";
 	}
 	// if depth is incorrect
 	else if (depthOutput.innerHTML != 30){
@@ -53,8 +53,9 @@ function myFunction(currentLight) {
 	}
 	// if all is correct
 	else {
-	tank.updateColor("green");
-	document.getElementById("response").innerHTML = "All variables are 30";
+		document.getElementById("response").innerHTML = "All variables are 30";
+		bloomColor();
+
 
 	}
 }

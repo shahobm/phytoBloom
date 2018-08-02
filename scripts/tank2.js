@@ -17,11 +17,11 @@ console.clear();
         fillPadding: null, // gap between perimeter and inside tank area that displays water.
         borderWidth: 2, // perimeter width.
         borderColor: "#333", // outside border color. usually the perimeter of the tank
-        defaultFillColor: "#3fabd4", // default water color. this is assigned to fillColor if water level does not pass any thresholds.
+        defaultFillColor: "#8ae2ea", // default water color. this is assigned to fillColor if water level does not pass any thresholds.
         fillColor: null, // used later to set water color. it could be different color depending on situations.
 
-        // upper water layer
-        backFillColor: "#ffff81", // wat6er layer above critical depth
+        // Use as light indicator? Change opacity based on light percentage
+        backFillColor: "#3fabd4", // background color inside the tank where there is no water.
         defaultOpacity: 0.7, // opacity of the background.
         opacity: null,
         opacityAnimation: null,
@@ -1322,7 +1322,7 @@ function setTwoText() {
 }
 
 function bloomColor() {
-	tank.updateColor("green");
+	tank.updateColor("#3fabd9");
 	tank.updateOpacity(0.2);
 
 }
