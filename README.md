@@ -46,7 +46,6 @@ Target date 10/31
 
 David is free to help Aug. 20?
 
-=======
 
 Rather than use the entire algorthim in a python equation, we will determine where blooms will occur given a Javascript area equation between out variables. We will edit the three scenarios to the scenarios David described. First by changing the toggles, their corresponding values in the tank, and their display in the tank. We can also create a mockup of the sidepanel displays for each scenario.
 
@@ -120,7 +119,6 @@ Create with CSS for portability of graph values to change with sliders later?
 	Include legend for what different values mean
 	Ask David for experiment descriptions, homepage descriptions and footer description
 
-<<<<<<< HEAD
 
 7. Change webdesign and animations.
 	Create a page for discussion of theory and its interpretation/uses
@@ -139,7 +137,6 @@ Create with CSS for portability of graph values to change with sliders later?
 3. Critical depth = depth where bloom occurs and water columns mix
 	Where area 1 = area 2
 	Drops with increase in light
-=======
 
 7. Change webdesign and animations.
 	Create a page for discussion of theory and its interpretation/uses
