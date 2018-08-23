@@ -130,10 +130,10 @@ console.clear();
     this.init();
 }
 
-    // initializer
-    init() {
-	this.setInitialValues();
-	this.drawSvgContainer();
+  // initializer
+  init() {
+    	this.setInitialValues();
+    	this.drawSvgContainer();
 
       // build the tank
       this.initTower();
@@ -225,8 +225,6 @@ console.clear();
       this.topMarkerLabel = this.bodyGroup.append('text').attr('id', 'top-marker-label');
       this.bottomMarkerLabel = this.bodyGroup.append('text').attr('id', 'bottom-marker-label');
       this.markerBarGroup = this.bodyGroup.append('g').attr('id', 'marker-bar-group');
-      // for debug purposes
-      // this.bodyGroup.append('path').attr('d', 'M-${this.height/2} 0 L ${this.height} 0').attr('stroke-width', 1).attr('stroke', 'red');
   }
 
   /* sets the inital text and color to display based on fillValue */
@@ -461,10 +459,6 @@ applyFillAttributes() {
 		let bottomRightInflectionPt = `${this.tankRx/4} ${this.tankRy}`;
 		let topLeftInflectionPt = `-${this.tankRx/4} ${this.tankRy}`;
 		let bottomLeftInflectionPt = `-${this.tankRx/4} ${this.tankRy}`;
-
-        // for debug purpose
-        // let topRightInfxPt = this.tankGroup.append('circle').attr('r', 2).attr('fill','red').attr('transform', `translate(${topRightInflectionPt})`);
-        // let bottomRightInfxPt = this.tankGroup.append('circle').attr('r', 2).attr('fill','red').attr('transform', `translate(${bottomRightInflectionPt})`);
 
         let neckFillPathDef = `M${topRight}, C${topRightInflectionPt}, ${bottomRightInflectionPt}, ${bottomRight}, L${bottomLeft}, C${bottomLeftInflectionPt}, ${topLeftInflectionPt}, ${topLeft} Z`;
         let neckBorderDef = `M${topRight}, C${topRightInflectionPt}, ${bottomRightInflectionPt}, ${bottomRight}, L${bottomLeft}, C${bottomLeftInflectionPt}, ${topLeftInflectionPt}, ${topLeft}`;
@@ -758,12 +752,7 @@ opacityTransition(selection, attribute, targetColor) {
 	.duration(this.transitionDuration)
 	.ease(this.ease)
 	.attrTween(attribute, function(d) {
-		let interpolator = d3.interpolateRgb(d.color, targetColor);
 
-		return function(t) {
-			d.color = interpolator(t);
-			return d.color;
-		};
 	});
 }
 */
@@ -1075,7 +1064,6 @@ repositionElements () {
     }
 
     /* TODO connect light value to change the opacity of the back fill color of the tank.*/ 
-    /* TODO Connect the light slider to change the the time of day when the "show given variable" button is selected allow slider max to be the midpoint and the minimums to be on the ends?*/
     updateLightValue (val) {
     	this.lightValue = val;
     	this.animateNewHeight(this.fillValue);
@@ -1232,38 +1220,37 @@ repositionElements () {
   appendSecondElementToFirst(first, ...args) {
       args.forEach((arg) => first.append( () => arg.node() ) );  // for each second argument, return a function: first.append( function(arg) { arg.node() });
   }
-
 }
 
 })(jQuery);
 
 /* y axis values */
 let thresholds = [
-{
-	name: 'High Tide',
-	value: 70,
-	type: 'High',
-	alarm: false
-},
-{
-	name: 'Average Depth',
-	value: 55,
-	type: 'High',
-	alarm: false
-},
-{
-	name: 'Mixing depth',
-	value: 40,
-	type: 'Low',
-	alarm: true
-},
-{
-	name: 'Low Depth',
-	value: 10,
-	type: 'Low',
-	alarm: false
-}
-];
+  {
+  	name: 'High Depth',
+  	value: 70,
+  	type: 'High',
+  	alarm: false
+  },
+  {
+  	name: 'Average Depth',
+  	value: 55,
+  	type: 'High',
+  	alarm: false
+  },
+  {
+  	name: 'Mixing depth',
+  	value: 40,
+  	type: 'Low',
+  	alarm: true
+  },
+  {
+  	name: 'Low Depth',
+  	value: 10,
+  	type: 'Low',
+  	alarm: false
+  }
+  ];
 
 /* inital text values */
 let options = {
@@ -1298,12 +1285,13 @@ function getNow() {
 	return Date().slice(16, 24);
 }
 
-/* TODO allow the date slider to display the cooresponding date for the selected day whenever adjusted */
 function dateFromDay(day){
-	var date = new Date(2020, 0);
-	tank.setSupportLabelText(Date(date.setDate(day)));
-	return new Date(date.setDate(day)); // add the number of days
+  var date = new Date(2020, 0);
+  tank.setSupportLabelText(Date(date.setDate(day))); //initialize a date in `year-01-01`
+  var dateDisplay = new Date(2020, 0)
+  return new Date(dateDisplay.setDate(day)); // add the number of days
 }
+
 
 function getRandom() {
 	return Math.floor(Math.random() * 100);
@@ -1324,7 +1312,6 @@ function setTwoText() {
 function bloomColor() {
 	tank.updateColor("#eaa58a");
 	tank.updateOpacity(0.2);
-
 }
 
 function high() {

@@ -17,11 +17,11 @@ console.clear();
         fillPadding: null, // gap between perimeter and inside tank area that displays water.
         borderWidth: 2, // perimeter width.
         borderColor: "#333", // outside border color. usually the perimeter of the tank
-        defaultFillColor: "#8ae2ea", // default water color. this is assigned to fillColor if water level does not pass any thresholds.
+        defaultFillColor: "#3fabd4", // default water color. this is assigned to fillColor if water level does not pass any thresholds.
         fillColor: null, // used later to set water color. it could be different color depending on situations.
 
         // Use as light indicator? Change opacity based on light percentage
-        backFillColor: "#3fabd4", // background color inside the tank where there is no water.
+        backFillColor: "#8ae2ea", // background color inside the tank where there is no water.
         defaultOpacity: 0.7, // opacity of the background.
         opacity: null,
         opacityAnimation: null,
@@ -56,7 +56,7 @@ console.clear();
         markerLabelXOffset: 0,
         markerLabelYOffset: 0,
         markerWidth: 2,
-        markerLength: 10,
+        markerLength: 1050,
         topMarkerText: null,
         topMarkerColor: "#133440",
         topMarkerFontColor: "#133440",
@@ -112,14 +112,14 @@ console.clear();
         lightValueEnabled: false,
         lightValueFontSize: 14,
         lightValueYOffset: 2,
-        changeDateValueArrowEnabled: false,
-        changeDateValueArrowYOffset: 0,
-        changeDateValue: null,
-        changeDateValueDecimal: 0,
-        changeDateValueEnabled: false,
-        changeDateValueFontSize: 14,
-        changeDateValueYOffset: 2,
-        changeDateValueUnit: 'mm/dd/yy'
+        respirationArrowEnabled: false,
+        respirationArrowYOffset: 0,
+        respiration: null,
+        respirationDecimal: 0,
+        respirationEnabled: false,
+        respirationFontSize: 14,
+        respirationYOffset: 2,
+        respirationUnit: ''
     };
     Object.assign(defaults, config);
 
@@ -132,26 +132,26 @@ console.clear();
 
     // initializer
     init() {
-	this.setInitialValues();
-	this.drawSvgContainer();
+      	this.setInitialValues();
+      	this.drawSvgContainer();
 
-      // build the tank
-      this.initTower();
-      this.setMarkerAttributes();
-      this.calculateDimensions();
-      this.setGaugeScale();
-      this.getNewHeight();
-      this.addThresholdMarkers();
-      this.applyFillAttributes();
-      this.applyTextAttributes();
-      this.applyWaveHorizontalAttributes();
-      this.applySupportLabelAttributes();
-      this.updateArrowPosition();
-      this.tweenWaveHorizontal();
-      this.animateFromZero();
-      this.repositionElements();
-      this.setBisector();
-      this.hover();
+        // build the tank
+        this.initTower();
+        this.setMarkerAttributes();
+        this.calculateDimensions();
+        this.setGaugeScale();
+        this.getNewHeight();
+        this.addThresholdMarkers();
+        this.applyFillAttributes();
+        this.applyTextAttributes();
+        this.applyWaveHorizontalAttributes();
+        this.applySupportLabelAttributes();
+        this.updateArrowPosition();
+        this.tweenWaveHorizontal();
+        this.animateFromZero();
+        this.repositionElements();
+        this.setBisector();
+        this.hover();
   	}
 
     // create box
@@ -199,8 +199,8 @@ console.clear();
       	this.lightValueBehindText = this.bodyGroup.append('text').attr('id', 'light-behind-text');
       }
 
-      if (this.changeDateValueEnabled) {
-      	this.changeDateValueBehindText = this.bodyGroup.append('text').attr('id', 'change-rate-value-behind-text');
+      if (this.respirationEnabled) {
+      	this.respirationBehindText = this.bodyGroup.append('text').attr('id', 'change-rate-value-behind-text');
       }
 
       this.waveGroup = this.bodyGroup.append('g').attr('clip-path', this.getUniqUrl(uniqId));
@@ -213,8 +213,8 @@ console.clear();
       	this.lightValueOverlayText = this.waveGroup.append('text').attr('id', 'lookup-value-overlay-text');
       }
 
-      if (this.changeDateValueEnabled) {
-      	this.changeDateValueOverlayText = this.waveGroup.append('text').attr('id', 'change-rate-value-overlay-text');
+      if (this.respirationEnabled) {
+      	this.respirationOverlayText = this.waveGroup.append('text').attr('id', 'change-rate-value-overlay-text');
       }
 
       this.supportLabelGroup = this.bodyGroup.append('g').attr('id', 'support-label-group');
@@ -225,14 +225,12 @@ console.clear();
       this.topMarkerLabel = this.bodyGroup.append('text').attr('id', 'top-marker-label');
       this.bottomMarkerLabel = this.bodyGroup.append('text').attr('id', 'bottom-marker-label');
       this.markerBarGroup = this.bodyGroup.append('g').attr('id', 'marker-bar-group');
-      // for debug purposes
-      // this.bodyGroup.append('path').attr('d', 'M-${this.height/2} 0 L ${this.height} 0').attr('stroke-width', 1).attr('stroke', 'red');
   }
 
   /* sets the inital text and color to display based on fillValue */
   setInitialValues () {
   	this.lightValueEnabled = this.lightValue !== null ? true : false;
-  	this.changeDateValueEnabled = this.changeDateValue !== null ? true : false;
+  	this.respirationEnabled = this.respiration !== null ? true : false;
 
   	this.fillColor = this.defaultFillColor;
 
@@ -301,6 +299,14 @@ console.clear();
 addThresholdMarkers() {
 	let topPixelPosition = this.gaugeScale(this.fillMaxValue) + this.borderWidth;
 	let color = this.tankType === 'round' ? '#fafafa' : '#000';
+
+  // points for max and min curved critical depth values
+  let curvePoints = [[0, 80], [300, 60], [600, 40], [900, 60], [1000, 80]];
+
+
+
+
+  
 
 	if (this.tankType === 'round') {
 		this.markerBarGroup.append('line')
@@ -462,10 +468,6 @@ applyFillAttributes() {
 		let topLeftInflectionPt = `-${this.tankRx/4} ${this.tankRy}`;
 		let bottomLeftInflectionPt = `-${this.tankRx/4} ${this.tankRy}`;
 
-        // for debug purpose
-        // let topRightInfxPt = this.tankGroup.append('circle').attr('r', 2).attr('fill','red').attr('transform', `translate(${topRightInflectionPt})`);
-        // let bottomRightInfxPt = this.tankGroup.append('circle').attr('r', 2).attr('fill','red').attr('transform', `translate(${bottomRightInflectionPt})`);
-
         let neckFillPathDef = `M${topRight}, C${topRightInflectionPt}, ${bottomRightInflectionPt}, ${bottomRight}, L${bottomLeft}, C${bottomLeftInflectionPt}, ${topLeftInflectionPt}, ${topLeft} Z`;
         let neckBorderDef = `M${topRight}, C${topRightInflectionPt}, ${bottomRightInflectionPt}, ${bottomRight}, L${bottomLeft}, C${bottomLeftInflectionPt}, ${topLeftInflectionPt}, ${topLeft}`;
 
@@ -563,8 +565,8 @@ applyTextAttributes() {
 		});
 	}
 
-	if (this.changeDateValueEnabled) {
-		let yOffset = this.fontSize/4 + this.changeDateValueFontSize + this.changeDateValueYOffset;
+	if (this.respirationEnabled) {
+		let yOffset = this.fontSize/4 + this.respirationFontSize + this.respirationYOffset;
 
 		if (this.lightValueEnabled) {
 			yOffset += this.lightValueFontSize + this.lightValueYOffset;
@@ -572,26 +574,26 @@ applyTextAttributes() {
 
 		let rateTransform = `translate(0, ${yOffset})`;
 
-		this.applyAttributes(this.changeDateValueBehindText, {
+		this.applyAttributes(this.respirationBehindText, {
 			datum: { color: this.backFontColor === null ? this.fillColor : this.backFontColor },
 			'text-anchor': 'middle',
 			'font-family': this.fontFamily,
-			'font-size': `${this.changeDateValueFontSize}px`,
+			'font-size': `${this.respirationFontSize}px`,
 			'font-weight': this.fontWeight,
 			fill: function(d) { return d.color; },
-			text: `0 ${this.changeDateValueUnit}`,
+			text: `0 ${this.respirationUnit}`,
 			transform: rateTransform
 		});
 
-		this.applyAttributes(this.changeDateValueOverlayText, {
+		this.applyAttributes(this.respirationOverlayText, {
 			datum: { color: this.frontFontColor === null ? "#fff" : this.frontFontColor },
 			'text-anchor': 'middle',
 			'font-family': this.fontFamily,
-			'font-size': `${this.changeDateValueFontSize}px`,
+			'font-size': `${this.respirationFontSize}px`,
 			'font-weight': this.fontWeight,
 			fill: function(d) { return d.color; },
 			'fill-opacity': this.overlayTextFillOpacity,
-			text: `0 ${this.changeDateValueUnit}`,
+			text: `0 ${this.respirationUnit}`,
 			transform: rateTransform
 		});
 	}
@@ -758,12 +760,7 @@ opacityTransition(selection, attribute, targetColor) {
 	.duration(this.transitionDuration)
 	.ease(this.ease)
 	.attrTween(attribute, function(d) {
-		let interpolator = d3.interpolateRgb(d.color, targetColor);
 
-		return function(t) {
-			d.color = interpolator(t);
-			return d.color;
-		};
 	});
 }
 */
@@ -781,11 +778,11 @@ lookupTextFormatter(val) {
 	return `${Number(Math.round(parseFloat(val) + 'e' + this.lightValueDecimal) + 'e-' + this.lightValueDecimal).toFixed(this.lightValueDecimal)}`;
 }
 
-changeDateValueTextFormatter(val) {
-	if (this.changeDateValueUnit) {
-		return `${Number(Math.round(parseFloat(val) + 'e' + this.changeDateValueDecimal) + 'e-' + this.changeDateValueDecimal).toFixed(this.changeDateValueDecimal)} ${this.changeDateValueUnit}`;
+respirationTextFormatter(val) {
+	if (this.respirationUnit) {
+		return `${Number(Math.round(parseFloat(val) + 'e' + this.respirationDecimal) + 'e-' + this.respirationDecimal).toFixed(this.respirationDecimal)} ${this.respirationUnit}`;
 	}
-	return `${Number(Math.round(parseFloat(val) + 'e' + this.changeDateValueDecimal) + 'e-' + this.changeDateValueDecimal).toFixed(this.changeDateValueDecimal)}`;
+	return `${Number(Math.round(parseFloat(val) + 'e' + this.respirationDecimal) + 'e-' + this.respirationDecimal).toFixed(this.respirationDecimal)}`;
 }
 
 tweenText() {
@@ -887,18 +884,18 @@ tweenText() {
 		});
 	}
 
-	if (this.changeDateValueEnabled) {
-		this.changeDateValueBehindText
+	if (this.respirationEnabled) {
+		this.respirationBehindText
 		.transition()
 		.delay(this.delay)
 		.ease(this.ease)
 		.duration(this.transitionDuration)
 		.tween("text", function(d) {
 			let node = this;
-			let interpolate = d3.interpolate(that.changeDateValueTextFormatter(node.textContent), that.changeDateValueTextFormatter(that.changeDateValue));
+			let interpolate = d3.interpolate(that.respirationTextFormatter(node.textContent), that.respirationTextFormatter(that.respiration));
 
 			return function(t) {
-				node.textContent = that.changeDateValueTextFormatter(interpolate(t));
+				node.textContent = that.respirationTextFormatter(interpolate(t));
 			};
 		})
 		.attrTween("fill", function(d) {
@@ -910,16 +907,16 @@ tweenText() {
 			};
 		});
 
-		this.changeDateValueOverlayText
+		this.respirationOverlayText
 		.transition()
 		.delay(this.delay)
 		.ease(this.ease)
 		.duration(this.transitionDuration)
 		.tween("text", function(d) {
 			let node = this;
-			let interpolate = d3.interpolate(that.changeDateValueTextFormatter(node.textContent), that.changeDateValueTextFormatter(that.changeDateValue));
+			let interpolate = d3.interpolate(that.respirationTextFormatter(node.textContent), that.respirationTextFormatter(that.respiration));
 			return function(t) {
-				node.textContent = that.changeDateValueTextFormatter(interpolate(t));
+				node.textContent = that.respirationTextFormatter(interpolate(t));
 			};
 		})
 		.attrTween("fill", function(d) {
@@ -942,9 +939,9 @@ updateArrowPosition () {
 calculateArrowPosition () {
 	let xOffset, yOffset;
 
-	if (this.changeDateValueArrowEnabled && this.changeDateValueEnabled) {
-		xOffset = this.changeDateValueOverlayText.node().getBBox().width/2 + this.overlayArrow.node().getBBox().width/2 + this.arrowXOffset;
-		yOffset = this.fontSize/4 + this.changeDateValueFontSize + this.changeDateValueYOffset - 1;
+	if (this.respirationArrowEnabled && this.respirationEnabled) {
+		xOffset = this.respirationOverlayText.node().getBBox().width/2 + this.overlayArrow.node().getBBox().width/2 + this.arrowXOffset;
+		yOffset = this.fontSize/4 + this.respirationFontSize + this.respirationYOffset - 1;
 
 		if (this.lightValueEnabled) {
 			yOffset += this.lightValueFontSize + this.lightValueYOffset;
@@ -1075,15 +1072,14 @@ repositionElements () {
     }
 
     /* TODO connect light value to change the opacity of the back fill color of the tank.*/ 
-    /* TODO Connect the light slider to change the the time of day when the "show given variable" button is selected allow slider max to be the midpoint and the minimums to be on the ends?*/
     updateLightValue (val) {
     	this.lightValue = val;
     	this.animateNewHeight(this.fillValue);
     	this.backFillOpacity = 0.1;
     }
 
-    updateChangeDateValue (val) {
-    	this.changeDateValue = val;
+    updateRespiration (val) {
+    	this.respiration = val;
     	this.animateNewHeight(this.fillValue);
     }
 
@@ -1232,7 +1228,6 @@ repositionElements () {
   appendSecondElementToFirst(first, ...args) {
       args.forEach((arg) => first.append( () => arg.node() ) );  // for each second argument, return a function: first.append( function(arg) { arg.node() });
   }
-
 }
 
 })(jQuery);
@@ -1240,28 +1235,10 @@ repositionElements () {
 /* y axis values */
 let thresholds = [
 {
-	name: 'High Tide',
-	value: 70,
-	type: 'High',
-	alarm: false
-},
-{
-	name: 'Average Depth',
-	value: 55,
-	type: 'High',
-	alarm: false
-},
-{
-	name: 'Mixing depth',
+	name: 'Critical Depth',
 	value: 40,
 	type: 'Low',
 	alarm: true
-},
-{
-	name: 'Low Depth',
-	value: 10,
-	type: 'Low',
-	alarm: false
 }
 ];
 
@@ -1269,17 +1246,19 @@ let thresholds = [
 let options = {
 	tankType: 'tower',
 	fillValue: 55,
-	fillUnit: "m",
+	fillUnit: "m MLD",
 	supportLabelPadding: 5,
 	frontFontColor: "#003B42",
 	thresholds: thresholds,
+  /* Disabled light values, reconnect or edit for changing side panel graphing
 	lightValue: 70,
 	lightValueUnit: 'Light %',
+  */
 	lightValueDecimal: 1,
-	changeDateValueDecimal: 1,
-	changeDateValueArrowEnabled: true,
-	changeDateValue: 1,
-	changeDateValueUnit: 'Day'
+	respirationDecimal: 1,
+	respirationArrowEnabled: true,
+	respiration: 1,
+	respirationUnit: 'Respiration'
 }
 
 let tank = $('.tankWrapper').analogTank(options);
@@ -1298,11 +1277,11 @@ function getNow() {
 	return Date().slice(16, 24);
 }
 
-/* TODO allow the date slider to display the cooresponding date for the selected day whenever adjusted */
 function dateFromDay(day){
-	var date = new Date(2020, 0);
-	tank.setSupportLabelText(Date(date.setDate(day)));
-	return new Date(date.setDate(day)); // add the number of days
+  var date = new Date(2020, 0);
+  tank.setSupportLabelText(Date(date.setDate(day))); //initialize a date in `year-01-01`
+  var dateDisplay = new Date(2020, 0)
+  return new Date(dateDisplay.setDate(day)); // add the number of days
 }
 
 function getRandom() {
@@ -1324,7 +1303,6 @@ function setTwoText() {
 function bloomColor() {
 	tank.updateColor("#3fabd9");
 	tank.updateOpacity(0.2);
-
 }
 
 function high() {
