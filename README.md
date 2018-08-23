@@ -43,8 +43,11 @@ Target date 10/31
 	(1305-1340) Button calls that are below the tank and description on the webpage.
 
 # 8/9/18 Meeting
+<<<<<<< HEAD
 David is free to help Aug. 20?
 
+=======
+>>>>>>> 60b2b63a45ff1ee2b5a381b32450e25acabc13df
 Rather than use the entire algorthim in a python equation, we will determine where blooms will occur given a Javascript area equation between out variables. We will edit the three scenarios to the scenarios David described. First by changing the toggles, their corresponding values in the tank, and their display in the tank. We can also create a mockup of the sidepanel displays for each scenario.
 
 Scenario 1. The toggles will be irradiance, respiration, and mix layer depth. The tank will show an air layer a water layer, and a mix layer depth below. The side panel will display a light/respiration exponential graph to the right.
@@ -117,6 +120,7 @@ Create with CSS for portability of graph values to change with sliders later?
 	Include legend for what different values mean
 	Ask David for experiment descriptions, homepage descriptions and footer description
 
+<<<<<<< HEAD
 
 7. Change webdesign and animations.
 	Create a page for discussion of theory and its interpretation/uses
@@ -135,3 +139,29 @@ Create with CSS for portability of graph values to change with sliders later?
 3. Critical depth = depth where bloom occurs and water columns mix
 	Where area 1 = area 2
 	Drops with increase in light
+=======
+
+7. Change webdesign and animations.
+	Create a page for discussion of theory and its interpretation/uses
+	Change any colors necessary in tank
+	Make side of tank static values bigger
+	Remove unessasary buttons that are on the experiment page
+	Change homepage experiment pictures to new snapshots
+	Add animations for light/respiration if necessary
+	Change any web design colors necessary
+	Add animation for sidepanel graphs if necessary
+	
+
+# Misc. Definitions (Science)
+1. irradiance = light
+2. mixing layer depth = depth where different water columns (surface/deep) meet
+3. Critical depth = depth where bloom occurs and water columns mix
+	Where area 1 = area 2
+	Drops with increase in light
+
+# Misc. Definitions (Sliders/Tank)
+
+1. Sliders
+
+2. Tank
+>>>>>>> 60b2b63a45ff1ee2b5a381b32450e25acabc13df
