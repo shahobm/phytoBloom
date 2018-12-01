@@ -22,6 +22,7 @@ console.clear();
 
         // upper water layer
         backFillColor: "#9bd8ff", // water layer above critical depth
+        skyFillColor: "#ffffcc",
         defaultOpacity: 0.7, // opacity of the background.
         opacity: null,
         opacityAnimation: null,
@@ -31,7 +32,7 @@ console.clear();
         innerWidth: null,
         innerHeight: null,
         fillAnimationColor: null, // used later to set the color while animating.
-        fillMaxValue: 100, // maximum possible value for the main text.
+        fillMaxValue: 110, // maximum possible value for the main text.
         fillMinValue: 0, // minimum possible value for the main text.
         fillValue: null, // value used to display the main text.
         fillUnit: null, // unit that is appended to the main text.
@@ -45,7 +46,7 @@ console.clear();
         backFontAnimationColor: null,
         frontFontColor: null,
         waveWidth: 100,
-        amplitude: 3,
+        amplitude: 2,
         horizontalWaveDuration: 2000,
         transitionDuration: 1000,
         delay: 0,
@@ -135,7 +136,7 @@ console.clear();
 		this.setInitialValues();
 		this.drawSvgContainer();
 
-      	// build the tank
+    // build the tank
 		this.initTower();
 		this.setMarkerAttributes();
 		this.calculateDimensions();
@@ -191,6 +192,7 @@ console.clear();
       this.waveHorizontal = this.waveClip.append('path');
 
       this.backFill = this.bodyGroup.append('rect').attr('id', 'back-fill');
+      this.skyFill = this.bodyGroup.append('rect').attr('id', 'sky-fill');
       this.border = this.bodyGroup.append('rect').attr('id', 'border');
       this.behindText = this.bodyGroup.append('text').attr('id', 'behind-text');
       this.behindArrow = this.bodyGroup.append('text').attr('id', 'behind-arrow');
@@ -234,8 +236,8 @@ console.clear();
 
   	this.fillColor = this.defaultFillColor;
 
-  	this.topMarkerText = this.topMarkerText === null ? this.fillMaxValue.toString() : this.topMarkerText;
-  	this.bottomMarkerText = this.bottomMarkerText === null ? this.fillMinValue.toString() : this.bottomMarkerText;
+  	this.topMarkerText = this.topMarkerText === null ? 0 + " m. MLD".toString() : this.topMarkerText;
+  	this.bottomMarkerText = this.bottomMarkerText === null ? 100 + " m. MLD".toString() : this.bottomMarkerText;
   	this.topMarkerFontColor = this.tankType === 'tower' ? '#000' : '#fafafa';
   	this.bottomMarkerFontColor = this.tankType === 'tower' ? '#000' : '#fafafa';
   }
@@ -275,62 +277,12 @@ console.clear();
       	this.innerWidth = this.tankWidth - this.borderWidth;
       	this.innerHeight = this.tankHeight - this.borderWidth;
       }
-
-  } else if (this.tankType === 'round') {
-        this.tankWidth = this.width - 2*(this.borderWidth + this.markerLabelWidth); // this is how wide the tank will draw
-        this.tankHeight = this.height - this.borderWidth - this.neckHeight; // this is how tall the round part of the tank will draw
-
-        if ( this.fillPadding !== null && typeof this.fillPadding === "number" && this.fillPadding !== 0 ) {
-          this.innerWidth = this.tankWidth - 2*this.fillPadding; // in case there is a padding, this will be the inner fill part
-          this.innerHeight = this.tankHeight - 2*this.fillPadding; // same as above
-      } else {
-      	this.innerWidth = this.tankWidth - this.borderWidth;
-      	this.innerHeight = this.tankHeight - this.borderWidth;
-      }
-
-        //subtract the support height use the minimum value
-        this.tankRx = this.tankWidth/2;
-        this.tankRy = this.tankHeight/2;
-        this.innerRx = this.innerWidth/2;
-        this.innerRy = this.innerHeight/2;
-    }
+    } 
 }
 
 addThresholdMarkers() {
 	let topPixelPosition = this.gaugeScale(this.fillMaxValue) + this.borderWidth;
 	let color = this.tankType === 'round' ? '#fafafa' : '#000';
-
-	if (this.tankType === 'round') {
-		this.markerBarGroup.append('line')
-		.attr('id', 'top-edge-marker')
-		.attr('x1', -this.markerLength-4)
-		.attr('x2', 1)
-		.attr('y1', topPixelPosition)
-		.attr('y2', topPixelPosition)
-		.attr('stroke-width', 1)
-		.attr('stroke', color)
-		.attr('stroke-linecap', 'round');
-
-		let bottomPixelPosition = this.gaugeScale(this.fillMinValue) - this.borderWidth;
-		this.markerBarGroup.append('line')
-		.attr('id', 'bottom-edge-marker')
-		.attr('x1', -this.markerLength-4)
-		.attr('x2', 1)
-		.attr('y1', bottomPixelPosition)
-		.attr('y2', bottomPixelPosition)
-		.attr('stroke-width', 1)
-		.attr('stroke', color)
-		.attr('stroke-linecap', 'round');
-
-		this.markerBar = this.markerBarGroup.append('line')
-		.attr('id', 'marker-bar')
-		.attr('x1', 1)
-		.attr('x2', 1)
-		.attr('y1', topPixelPosition)
-		.attr('y2', bottomPixelPosition)
-		.attr('stroke-width', 1)
-		.attr('stroke', color);
-	}
 
 	this.thresholdMarkerPositions = [];
 	this.thresholdTooltips = [];
@@ -381,15 +333,25 @@ applyFillAttributes() {
 	if (this.tankType === 'tower') {
 		this.applyAttributes(this.backFill, {
 			x: 0,
-			y: 0,
+			y: 30,
 			width: this.innerWidth,
-			height: this.innerHeight,
+			height: this.innerHeight-30,
 			rx: this.innerCornerRadius,
 			ry: this.innerCornerRadius,
 			fill: this.backFillColor,
 			'fill-opacity': this.backFillOpacity,
 			transform: `translate(-${(this.tankWidth - this.borderWidth)/2}, -${(this.tankHeight - this.borderWidth)/2})`
 		});
+
+    this.applyAttributes(this.skyFill, {
+      x: 0,
+      y: 0,
+      width: this.innerWidth,
+      height: 30,
+      fill: this.skyFillColor,
+      'fill-opacity': this.backFillOpacity,
+      transform: `translate(-${(this.tankWidth - this.borderWidth)/2}, -${(this.tankHeight - this.borderWidth)/2})`
+    });
 
 		this.applyAttributes(this.waterFill, {
 			datum: { color: this.fillColor },
@@ -451,36 +413,12 @@ applyFillAttributes() {
 
 		let topRight = `${xCoord} ${this.tankRy/8*7}`;
 		let bottomRight = `${this.tankRx/4} ${this.height - this.tankRy - this.borderWidth/2}`;
-
 		let topLeft = `-${xCoord} ${this.tankRy/8*7}`;
 		let bottomLeft = `-${this.tankRx/4} ${this.height - this.tankRy - this.borderWidth/2}`;
-
 		let topRightInflectionPt = `${this.tankRx/4} ${this.tankRy}`;
 		let bottomRightInflectionPt = `${this.tankRx/4} ${this.tankRy}`;
 		let topLeftInflectionPt = `-${this.tankRx/4} ${this.tankRy}`;
 		let bottomLeftInflectionPt = `-${this.tankRx/4} ${this.tankRy}`;
-
-        let neckFillPathDef = `M${topRight}, C${topRightInflectionPt}, ${bottomRightInflectionPt}, ${bottomRight}, L${bottomLeft}, C${bottomLeftInflectionPt}, ${topLeftInflectionPt}, ${topLeft} Z`;
-        let neckBorderDef = `M${topRight}, C${topRightInflectionPt}, ${bottomRightInflectionPt}, ${bottomRight}, L${bottomLeft}, C${bottomLeftInflectionPt}, ${topLeftInflectionPt}, ${topLeft}`;
-
-        this.applyAttributes(this.neckFill, {
-        	datum: { color: this.fillColor },
-        	d: neckFillPathDef,
-        	fill: this.fillColor,
-        });
-
-        this.applyAttributes(this.neckBorder, {
-        	d: neckBorderDef,
-        	stroke: this.borderColor,
-        	fill: 'transparent',
-        	'stroke-width': this.borderWidth
-        });
-
-        this.applyAttributes(this.neckBackFill, {
-        	d: neckFillPathDef,
-        	fill: this.backFillColor,
-        	'stroke-width': 0
-        });
     }
 }
 
@@ -676,7 +614,7 @@ animateNewHeight (val) {
 	let that = this;
 	if ( typeof val !== "undefined" ) {
 		this.newHeight = this.gaugeScale(val);
-		this.fillValue = val;
+		this.fillValue = 100-val;
 	}
 
 	this.tweenWaveVertical();
@@ -707,19 +645,11 @@ calculateColor () {
 	this.backArrowAnimationColor = this.backArrowColor === null ? this.fillColor : this.backArrowColor;
 }
 
-/*
-calculateOpacity() {
-	this.opacityAnimation = this.opacity === null ? this.defaultFillColor : this.fillColor;
-}
-*/
 tweenElements () {
 	this.calculateColor();
 	this.colorTransition(this.waterFill, "fill", this.fillAnimationColor);
 	this.colorTransition(this.supportLabelBg, 'stroke', this.fillAnimationColor);
-/*
-	this.calculateOpacity();
-	this.opacityTransition(this.waterFill, "fill", this.opacityAnimation);
-*/
+
 
 	this.tweenText();
 
@@ -744,18 +674,7 @@ colorTransition(selection, attribute, targetColor) {
 		};
 	});
 }
-/*
-opacityTransition(selection, attribute, targetColor) {
-	selection
-	.transition()
-	.delay(this.delay)
-	.duration(this.transitionDuration)
-	.ease(this.ease)
-	.attrTween(attribute, function(d) {
 
-	});
-}
-*/
 textFormatter(val) {
 	if (this.fillUnit) {
 		return `${(Number(Math.round(parseFloat(val) + 'e' + this.decimal) + 'e-' + this.decimal)).toFixed(this.decimal)} ${this.fillUnit}`;
@@ -1060,10 +979,10 @@ repositionElements () {
     }
 
     updateHeight (val) {
-    	this.animateNewHeight(val);
+    	this.animateNewHeight(100-val);
     }
 
-    /* TODO connect light value to change the opacity of the back fill color of the tank.*/ 
+    /* TODO connect light value to change the opacity of the back fill color of the tank.*/
     updateLightValue (val) {
     	this.lightValue = val;
     	this.animateNewHeight(this.fillValue);
@@ -1118,12 +1037,6 @@ repositionElements () {
   	this.backFillColor = color;
   	this.tweenElements();
   }
-/*
-  updateOpacity (opacity) {
-  	this.opacity = opacity;
-  	this.tweenElements();
-  }
-*/
 
   click(callback) {
   	if ( typeof callback !== "function" ) {
@@ -1227,6 +1140,7 @@ repositionElements () {
 
 /* y axis values */
 let thresholds = [
+/*
 {
 	name: 'Sea Surface',
 	value: 100,
@@ -1235,7 +1149,7 @@ let thresholds = [
 },
 {
 	name: 'Starting mix layer depth',
-	value: 55,
+	value: 50,
 	type: 'High',
 	alarm: true
 },
@@ -1246,12 +1160,13 @@ let thresholds = [
 	type: 'Low',
 	alarm: true
 }
+*/
 ];
 
 /* inital text values */
 let options = {
 	tankType: 'tower',
-	fillValue: 55,
+	fillValue: 50,
 	fillUnit: "m MLD",
 	supportLabelPadding: 5,
 	frontFontColor: "#003B42",
@@ -1277,20 +1192,6 @@ $(".tankWrapper").resizable({
 
 let that = this;
 
-function getNow() {
-	return Date().slice(16, 24);
-}
-
-function dateFromDay(day){
-	var date = new Date(2020, 0);
-	tank.setSupportLabelText(Date(date.setDate(day))); //initialize a date in `year-01-01`
-	var dateDisplay = new Date(2020, 0)
-	return new Date(dateDisplay.setDate(day)); // add the number of days
-}
-
-function getRandom() {
-	return Math.floor(Math.random() * 100);
-}
 tank.click(function () {
 	var randomVal = getRandom();
 	tank.updateHeight(randomVal);
@@ -1298,38 +1199,19 @@ tank.click(function () {
 
 /* Button function initiation */
 
-/* Unused date labels
-function setOneText() {
-	tank.setSupportLabelText(dateFromDay(110));
+function setOneText(critDepth) {
+	tank.setSupportLabelText("Critical Depth is: " + critDepth + " meters");
 }
-function setTwoText() {
-	tank.setSupportLabelText(dateFromDay(110), "bottom label");
-}
-*/
+
+
 function bloomColor() {
 	tank.updateColor("green");
-	//tank.updateOpacity(0.2);
 }
 
-function high() {
-	tank.updateHeight(70);
-}
-function mid() {
-	tank.updateHeight(55);
-}
-function low() {
-	tank.updateHeight(10);
+function noBloomColor() {
+  tank.updateColor("#3fabd4");
 }
 
-function setDecimalZero() {
-	tank.setDecimal(0);
-}
-function setDecimalOne() {
-	tank.setDecimal(1);
-}
-function setDecimalTwo() {
-	tank.setDecimal(2);
-}
 function tower() {
 	tank.tankType = 'tower';
 	delete tank.topMarkerFontColor;

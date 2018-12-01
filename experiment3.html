@@ -6,11 +6,10 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" href="assets/css/main.css" />
+	<link rel="shortcut icon" type="image/x-icon" href="images/seaweed.png"/>
 	<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 
-	<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
-	<script src="https://d3js.org/d3.v5.min.js"></script>
+
 
 
 	<link rel="icon" href="images/favicon.ico" type="image/gif">
@@ -18,8 +17,18 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="
 	anonymous">
 	<link rel="stylesheet" href="assets/css/tank.css"/>
+	<link rel="stylesheet" type="text/css" href="graphs/canvasGraph.css">
 
-
+	<!-- new chart styling -->
+	<style type="text/css">/* Chart.js */
+	@-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style>
+	<style>
+	canvas{
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+	}
+	</style>
 </head>
 <body class="is-preload">
 
@@ -58,7 +67,7 @@
 							<input type="range" min="1" max="100" value="50" class="slider" id="depthRange">
 							<p>Depth (meters): <span id="depthVal"></span></p>
 						</div></li> -->
-						
+
 				</ul>
 			</nav>
 		</div>
@@ -70,25 +79,37 @@
 					<!-- Intro -->
 					<section id="intro" class="wrapper style3 fullscreen fade-up">
 						<div class="inner">
-							<h1>Experiment 3</h1>
+							<b><h1>Spring Blooms in Shallow Water</h1></b>
 							<br>
 
 							<!-- The tank -->
 							<div class="tankWrapper"></div>
+							<!--
+							<svg width="100%" height="300" style="position: absolute; top: 55px;">
+							  <path d="M00,200
+							           Q250,100 400,200
+							           T1040 200"
+							    fill="none" stroke="#0000" stroke-width="2px" stroke-dasharray="4" />
+							</svg>
+							-->
 
-							<p>Students will use the Sverdrup critical-depth model to determine the necessary variables which will initiate a spring bloom.
-							Given some scenario and some predetermine variables, students may show their understanding by using the algorithim to determine other missing variables where a bloom will occur.
+
+
+							<div style="width: 100%; background-color: white;">
+								<canvas id="canvas"></canvas>
+							</div>
+
+
+							<p id="critDepth"></p>
 							<br>
-							As the student solves the model, the program may tell the student whether a given variable is close to a correct solution, or if a solution is too high or low. It may also accept solutions within a certain range. This includes light intensity/angle, day of the year, and depth. But may also include O2 or CO2 levels and other variables. Colors of the tank may also change such that the depth slider represents the critical/mixing depth rather than the total water depth.
+
+							<p>Adjust the sliders to the left to change the irradiance, respiration levels. Once sufficient values are reached for the mathematical model, the tank will change color to describe a spring bloom.</p>
+
 							<br>
-							Students may click on "show variables" to view given variables in the model and hover over markers on the right of the tank to view critical information.</p>
-							
-							<p>Equation: del P/del t = D(del2P/delz2) + I*a*exp(-kz) - R, where P is the phytoplankton biomass, D is vertical diffusion (mixing), z is water depth, I is incoming solar radiation (a function of time), a is the fraction of incoming light that enters the water and leads to the production of phytoplankton, k is the light attenuation coefficient, and R is respiration (or the loss of P, constant with depth). 
-							Model domain: z = 0 to Zd. (Zd is the mixing depth, which varies with time).
-							Deeper, z > Zd, a = R = 0.
-							</p>
 
+							<p>Experiment 3 examines a scenario with a significantly shallow water level where the seafloor acts as a mixing layer depth for the system and allows irradiance and respiration levels to be changed. Although this mixing layer depth cannot be changed, the irradiance and respiration levels can be selected to show a bloom.</p>
 
+<!--
 							<button id="onetext" onclick="setOneText()">Show given variable</button>
 							<button id="twotext" onclick="setTwoText()">Show two variables</button>
 							<br>
@@ -106,9 +127,10 @@
 							<br>
 							<br>
 							<br>
-							<!-- check solution is slider.js -->
-							<button class="pull-left" onclick="tank3Solution()">Check Solution</button>
-							<button id="color" onclick="bloomColor()">Show Bloom</button>
+
+
+							<button class="pull-left" onclick="tank3Solution()">Check Solution</button>-->
+							<!--<button id="color" onclick="bloomColor()">Show Bloom</button>-->
 
 
 							<h3 style="margin-top: 10%;" id="response"></h3>
@@ -128,6 +150,14 @@
 					</footer>
 
 					<!-- Scripts -->
+
+					<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+					<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+					<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+					<script src="https://d3js.org/d3.v5.min.js"></script>
+
+					<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/5.2.0/math.js"></script>
+
 					<script src="assets/js/jquery.min.js"></script>
 					<script src="assets/js/jquery.scrollex.min.js"></script>
 					<script src="assets/js/jquery.scrolly.min.js"></script>
@@ -136,8 +166,20 @@
 					<script src="assets/js/util.js"></script>
 					<script src="assets/js/main.js"></script>
 					<script src="scripts/slider.js"></script>
+					<script src="scripts/graph.js"></script>
+
+					<!-- old graph -->
 					<script type="text/javascript" src="scripts/tank3.js"></script>
-					<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+					<!--<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>-->
+
+					<!-- New graph -->
+					<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+					<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js"></script>
+					<script src="scripts/utils.js"></script>
+					<script src="scripts/chart3.js"></script>
+
+					<!-- <script src="https://designmodo.com/demo/interactivegraph/js/jquery.flot.min.js"></script>
+					<script src="graphs/graph.js"></script>-->
 
 				</body>
 				</html>

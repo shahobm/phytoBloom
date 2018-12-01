@@ -6,6 +6,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="shortcut icon" type="image/x-icon" href="images/seaweed.png"/>
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
 	<body class="is-preload">
@@ -13,11 +14,15 @@
 		<!-- Sidebar -->
 			<section id="sidebar">
 				<div class="inner">
+					<img src="images/correctBoatEdited.png" class="padding" alt="boat" heigh="300" width="300" >
+					<br>
 					<nav>
 						<ul>
 							<li><a href="#intro">Instructions</a></li>
 							<li><a href="#one">Experiments</a></li>
-
+							<li><a href="#two">About</a></li>
+							<!-- Include the contact page to add email to Dr. Shull functionality -->
+							<!--<li><a href="contact.html">Contact</a></li>-->
 						</ul>
 					</nav>
 				</div>
@@ -29,25 +34,48 @@
 				<!-- Intro -->
 					<section id="intro" class="wrapper style1 fullscreen fade-up">
 						<div class="inner">
-							<h1>Spring Algea Bloom</h1>
-							<p>Background Reading</p>
 
-							<p>Proin fermentum faucibus ultricies. Pellentesque eu ligula nunc. Morbi risus nibh, interdum id nisl et, molestie lacinia justo. Praesent id ultricies libero. Vestibulum lobortis porttitor purus at varius. Mauris sodales at nunc sed sollicitudin. Sed mollis sapien nec tellus faucibus, id eleifend lacus vestibulum. Nullam eu lectus iaculis, vehicula justo eget, eleifend mauris. Morbi consectetur purus eu malesuada viverra. Sed venenatis libero nec odio ullamcorper, in venenatis velit lobortis. Ut vulputate justo accumsan laoreet molestie. Aliquam varius ullamcorper cursus. Duis sit amet nisl ligula. Vestibulum convallis scelerisque felis et varius.<p>
-							<a href="https://aslopubs.onlinelibrary.wiley.com/doi/pdf/10.4319/lo.1990.35.1.0228">Spring bloom inititation and Sverdrup’s critical-depth model - Limnol.</a>
+					<h1>Spring Algal Blooms</h1>
+
+
+							<h2>Examining phytoplankton blooms using Sverdrup's Critical Depth Model</h2>
+							<br>
+							<h2>Introduction</h2>
+							<!--
+							 -add footer/header to home,  experiments(no footer here rn(no color for footer in 3rd experiment)), and contact page.
+								  -center all buttons on page.
+								  -set up contact page.
+								  -indent text maybe?
+							-->
+							<p>The spring phytoplankton bloom is a rapid and remarkable increase in the concentration of phytoplankton that typically occurs in early spring. It is often observed in the North Atlantic, in sub-polar waters, and in temperate coastal marine waters. Understanding the timing of the spring bloom and the processes that generate this phenomenon was a major problem addressed in biological oceanography. The classic explanation for the spring bloom is Sverdrup’s (1953) critical depth concept. Despite later critiques of this concept, it remains an important theory in biological oceanography. And, because Sverdrup’s explanation integrates concepts from physical and biological oceanography, it is a great exam question in oceanography courses.</p>
+
+							<p>One way to define the critical depth is the depth is the depth above which depth-integrated daily gross photosynthesis equals the depth-integrated respiration, where respiration includes biomass removal by phytoplankton respiration and by grazers. Sverdrup (1953) argued that when the critical depth becomes deeper than the depth of the surface mixed layer, the daily average rate of organic-matter production will exceed its rate of destruction and a phytoplankton bloom will occur. When the critical depth is shallower than the mixed-later depth, no bloom can occur. In spring, as light availability increases, the critical depth deepens. The timing of the spring bloom, therefore, depends upon light intensity, the rate of loss of phytoplankton (respiration), and the depth of the surface mixed layer.</p>
+
+							<p>The following three experiments enable you to explore how light, mixing, and respiration interact to generate a spring phytoplankton bloom. In the first experiment, you can manipulate the intensity of sunlight, the respiration rate, and the mixed layer depth and identify conditions under which a phytoplankton bloom can occur. In the second experiment, light intensity is set by measurements of light intensity measured in Bellingham Bay, WA. You can manipulate the depth of mixing and respiration. The third experiment takes place in shallow water where water depth sets the mixed-layer depth. You can manipulate light and respiration to observe the conditions that lead to a phytoplankton bloom in shallow water.</p>
+
+
+							<!--center the pdf here and the buttons below (also the button at the contact button at bottom of the page)-->
+
+							<a href="https://aslopubs.onlinelibrary.wiley.com/doi/pdf/10.4319/lo.1990.35.1.0228">Spring bloom inititation and Sverdrup’s critical-depth model PDF - Limnol.</a>
+
+							<br>
+							<br>
 							<ul class="actions">
 								<li><a href="#one" class="button scrolly">Select an Experiment</a></li>
+								<li><a href="#two" class="button scrolly">Learn More</a></li>
 							</ul>
+
 						</div>
 					</section>
 
-				<!-- One -->
+
 					<section id="one" class="wrapper style2 spotlights">
 						<section>
-							<a href="#" class="image"><img src="images/pic07.jpg" alt="" data-position="center center" /></a>
+							<a href="#" class="image"><img src="images/1.png" alt="" data-position="center center" /></a>
 							<div class="content">
 								<div class="inner">
-									<h2>Experiment 1</h2>
-									<p>Phasellus convallis elit id ullamcorper pulvinar. Duis aliquam turpis mauris, eu ultricies erat malesuada quis. Aliquam dapibus.</p>
+									<h2>Spring Bloom</h2>
+									<p id="center">Change the light, respiration, and mixing layer depth of a water system to determine the properties for a spring bloom to occur.</p>
 									<ul class="actions">
 										<li><a href="experiment.html" class="button">Begin Experiment</a></li>
 									</ul>
@@ -55,11 +83,11 @@
 							</div>
 						</section>
 						<section>
-							<a href="#" class="image"><img src="images/pic08.jpg" alt="" data-position="top center" /></a>
+							<a href="#" class="image"><img src="images/2.png" alt="" data-position="top center" /></a>
 							<div class="content">
 								<div class="inner">
-									<h2>Experiment 2</h2>
-									<p>Mauris a luctus dolor, at volutpat risus. Fusce gravida dapibus lectus ut maximus. Fusce viverra nisl eget ipsum iaculis, ut fermentum diam euismod.</p>
+									<h2>Spring Bloom Timing</h2>
+									<p id="center">Alter the mixing layer depth and respiration levels to see a coorelation with light and the time of year a bloom may occur.</p>
 									<ul class="actions">
 										<li><a href="experiment2.html" class="button">Begin Experiment</a></li>
 									</ul>
@@ -68,11 +96,11 @@
 						</section>
 
 						<section>
-							<a href="#" class="image"><img src="images/pic09.jpg" alt="" data-position="center center" /></a>
+							<a href="#" class="image"><img src="images/3.png" alt="" data-position="center center" /></a>
 							<div class="content">
 								<div class="inner">
-									<h2>Experiement 3</h2>
-									<p>Pellentesque suscipit aliquam lectus quis congue. Aliquam pharetra feugiat metus, vitae vehicula libero commodo sed. Pellentesque vitae lacus consectetur, viverra quam quis, egestas eros.</p>
+									<h2>Spring Bloom In Shallow Water</h2>
+									<p id="center">Discover the critical depth of a shallow water system where the seafloor acts as the mixed layer depth.</p>
 									<ul class="actions">
 										<li><a href="experiment3.html" class="button">Begin Experiment</a></li>
 									</ul>
@@ -83,17 +111,65 @@
 
 
 
+					<!-- Two -->
+					<section id="two" class="wrapper style2 fullscreen fade-up">
+						<div class="content" style="padding: 1em">
+							<h1>About</h1>
+							<div class="inner">
 
+							<p>In the three experiments above Students examine different scenarios for which a bloom may occur.
+
+								<br><br>
+
+								Experiment 1 allows students to toggle average irradiance level the water layer will receive usually following the angle of the sun in relation to the waterways position. As well as the depth of the mixing layer and level of phytoplankton respiration. These inputs are processed by the mathematical model which describes Sverdrups theory and show when a bloom will occur. The relation between light and respiration is examined.
+
+								<br><br>
+
+								Experiment 2 allows toggling of just the respiration and mixing layer depth where irradiance is fixed but shows how irradiance levels will vary through January to July and how a critical depth level may vary through this time period.
+
+								<br><br>
+
+								Experiment 3 examines a scenario with a significantly shallow water level where the seafloor acts as a mixing layer depth for the system and allows irradiance and respiration levels to be changed.
+
+							</p>
+
+							<p>The Sverdrup critical-depth model gives evidence that yearly phytoplankton blooms occur as a result of light supply and the depth of vertical mixing. This results in a corresponding total population of zooplankton following the harvesting of suffiecient light energy and subsequent maintenance of that population. The combination of the critical depth model can be framed in a mathematical model for the initiation of algal blooms. Assuming that a given body of water has sufficient nutrient supply, the phytoplankton levels will follow the amount of irradiance a water layer receives following seasonal variations in light intensity.</p>
+
+							<p>The Sverdrup critical depth model is not withouts its challenges. Recent examinations of the timing of spring blooms in the Pacific and Atlantic are indeed consistent with the critical depth model (Obata et al., 1996). However challenges to the underlying assumptions of the theory (Smetacek and Passow, 1990) have been raised. This has lead researchers to examine additional functions for spring bloom occurrences including iron limitations (Martin et a/., 1991). The model therefore does not provide a definite model for all water systems, it has been a useful tool to describe many seasonal blooms.</p>
+
+							<p>The mathematical model that follows Sverdrups theory states that: del P/del t = D(del2P/delz2) + I*a*exp(-kz) - R, where P is the phytoplankton biomass, D is vertical diffusion (mixing), z is water depth, I is incoming solar radiation (a function of time), a is the fraction of incoming light that enters the water and leads to the production of phytoplankton, k is the light attenuation coefficient, and R is respiration (or the loss of P, constant with depth).
+							Model domain: z = 0 to Zd. (Zd is the mixing depth, which varies with time).
+							</p>
+
+							<p>
+							As the student solves the model, the program may tell the student whether a given variable is close to a correct solution, or if a solution is too high or low. It may also accept solutions within a certain range. This includes light intensity/angle, day of the year, and depth. But may also include O2 or CO2 levels and other variables. Colors of the tank may also change such that the depth slider represents the critical/mixing depth rather than the total water depth.</p>
+
+							<br>
+							<br>
+
+							<p id="center" >If you have questions feel free to contact Dr. Shull</p>
+
+							<!-- Include the contact page to add email to Dr. Shull functionality -->
+							<!-- <a href="contact.html" class="button scrolly" >Contact</a> -->
+
+							</div>
+
+						</div>
+
+					</section>
 
 
 			</div>
+
 
 		<!-- Footer -->
 			<footer id="footer" class="wrapper style1-alt">
 				<div class="inner">
 					<ul class="menu">
-						<li>Footer</li>
-						<li>Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus molestie dignissim volutpat. Sed viverra in enim eget lacinia. Morbi consectetur justo ut ligula egestas sagittis. Quisque condimentum at purus sit amet dictum. Sed et efficitur augue, sed sollicitudin tortor. Phasellus ut ullamcorper sem. Aenean finibus, sem et dictum semper, arcu nunc efficitur libero, id dapibus lectus turpis a quam. Vivamus venenatis ex et quam ultrices fermentum. Pellentesque quis aliquam sem.</li>
+						<li><a href="index.html">Spring Algal Bloom Study</a></li>
+						<li><a href="https://huxley.wwu.edu/people/shulld">Dr. David Shull - Environmental Sciences</a></li>
+						<li><a href="http://pandora.cii.wwu.edu/cii">Center for Instructional Innovation</a></li>
+						<li><a href="http://www.wwu.edu">Western Washington University</a></li>
 					</ul>
 				</div>
 			</footer>
@@ -104,8 +180,8 @@
 			<script src="assets/js/jquery.scrolly.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
 			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+
 
 	</body>
 </html>

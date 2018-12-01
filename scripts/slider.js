@@ -1,116 +1,137 @@
+// slider.js used by all 3 experiments
 
-var currentLight = 0;
-var currentDepth = 0;
-var currentDate = 0;
-var currentRespiration = 0;
-
-
-
-// light slider
 var lightSlider = document.getElementById("lightRange");
 var lightOutput = document.getElementById("lightVal");
+
+var depthSlider = document.getElementById("depthRange");
+var depthOutput = document.getElementById("depthVal");
+
+var respirationSlider = document.getElementById("respirationRange");
+var respirationOutput = document.getElementById("respirationVal");
+
+// light slider
 if(lightOutput){
 	lightOutput.innerHTML = lightSlider.value;
-
 
 	lightSlider.oninput = function() {
 		lightOutput.innerHTML = this.value;
 		tank.updateLightValue(this.value);
-		tank.updateChangeDateValue(this.value);
+		
+		critDepth = areaCalculation();
 	}
 }
 
-
 // depth slider
-var depthSlider = document.getElementById("depthRange");
-var depthOutput = document.getElementById("depthVal");
 if(depthOutput){
 	depthOutput.innerHTML = depthSlider.value;
 
 	depthSlider.oninput = function() {
 		depthOutput.innerHTML = this.value;
 		tank.updateHeight(this.value)
+		critDepth = areaCalculation();
 	}
 }
 
 // respiration slider
-var respirationSlider = document.getElementById("respirationRange");
-var respirationOutput = document.getElementById("respirationVal");
 if(respirationOutput){
 	respirationOutput.innerHTML = respirationSlider.value;
 
 	respirationSlider.oninput = function() {
 		respirationOutput.innerHTML = this.value;
 		tank.updateRespiration(this.value)
-		//tank.updateChangeDateValue(this.value);
+		critDepth = areaCalculation();
 	}
 }
 
-/*
-// date slider
-var dateSlider = document.getElementById("dateRange");
-var dateOutput = document.getElementById("dateVal");
-dateOutput.innerHTML = dateSlider.value;
+// initalize critical depth input files depending on the experiment page
+function areaCalculation() {
 
-dateSlider.oninput = function() {
-	dateOutput.innerHTML = this.value;
-	tank.updateChangeDateValue(this.value);
-	tank.setSupportLabelText(dateFromDay(this.value));
-}
-*/
-
-// check students values for correct solution
-
-function checkSolution() {
-
-	// if depth is incorrect
-	if (depthOutput.innerHTML != 30){
-		document.getElementById("response").innerHTML = "Your depth value is not 30";
+// experiment 2
+	if(document.getElementById("lightVal") == null){
+		var light = -1;
+		var respiration = respirationOutput.innerHTML;
+		var depth = depthOutput.innerHTML;
 	}
-	// if all is correct
+
+// experiment 3
+	else if(document.getElementById("depthVal") == null){
+		var light = lightOutput.innerHTML;
+		var respiration = respirationOutput.innerHTML;
+		var depth = -1;
+
+	}
+
+// experiment 1
 	else {
-		document.getElementById("response").innerHTML = "All variables are correct";
-		bloomColor();
-
+		var light = lightOutput.innerHTML;
+		var respiration = respirationOutput.innerHTML;
+		var depth = depthOutput.innerHTML;
 	}
 
-}
+	if(light == -1){
+		// light is fixed set default
+		light = 75;
+	}
+	if(depth == -1){
+		// mix layer depth is fixed set default (experiment 3 depth)
+		depth = 30;
+	}
 
-function tank1Solution() {
-	var value1;
-	var value2;
-	var value3;
+	critDepth = critDepthCalc(light, depth, respiration);
 
-	areaCalculation(value1, value2, value3);
-}
+	if(document.getElementById("lightVal") != null){
+		setOneText(critDepth);
+		window.myLine.data.datasets[2].data = criticalData(critDepth);
+		window.myLine.update();
+	
 
-function tank2Solution() {
-	var value1;
-	var value2;
-	var value3;
+	// if mix layer depth > calculated critical depth, change tank color. Otherwise change the color back if its not already.
+		if (depth <= critDepth) {
+			// return change to boom color
+			bloomColor();
+		}else{
+			// return no change to bloom color
+			noBloomColor();
 
-	areaCalculation(value1, value2, value3);
-}
-
-function tank3Solution() {
-	var value1;
-	var value2;
-	var value3;
-
-	areaCalculation(value1, value2, value3);
-}
-
-function areaCalculation(value1, value2, value3) {
-	var bloomScenario = false;
-
-	// calculate whether bloom
-
-	if (bloomScenario) {
-		// return change to boom color
-		return true;
-	}else{
-		// return no change to bloom color
-		return false;
+		}
 	}
 }
 
+// based on matlab calculations, calculate critical depth
+function critDepthCalc(light, depth, respiration){
+
+	// these remain constant
+	var alpha = 1;
+	var attenuation = 0.05;	
+
+	// create depth array
+	 //const increaseVal = x => x + 0.1
+	 function range(start, stop, step){
+	     var a=[start], b=start;
+	     while(b<stop){b+=(step || 1);a.push(b)}
+	     return a;
+	 };
+
+	var depthArray = range(0, 200, 0.1);
+
+	var pInt = 1;
+	var rInt = 0;
+
+	// array starts at index 0
+	var index = 0;
+
+	while(pInt > rInt){
+		
+		index += 1;
+
+		var numerator = light*alpha;
+		var preExp = -attenuation * depthArray[index];
+
+		pInt = ([light*alpha/0.05]*(1-(Math.exp(preExp))));
+		rInt = respiration * depthArray[index];
+	}
+
+	critDepth = Math.round(depthArray[index] * 100 / 100);
+
+	return critDepth;
+}

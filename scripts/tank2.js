@@ -55,8 +55,11 @@ console.clear();
         markerGap: [5, 3],
         markerLabelXOffset: 0,
         markerLabelYOffset: 0,
-        markerWidth: 2,
-        markerLength: 1050,
+        markerWidth: 1,
+
+        // manages red line length
+        markerLength: 1036,
+
         topMarkerText: null,
         topMarkerColor: "#133440",
         topMarkerFontColor: "#133440",
@@ -66,12 +69,12 @@ console.clear();
         markerFontSize: 10,
         markerFontWeight: "bold",
         markerFontFamily: "Helvetica",
-        enableSupportLabel: true,
+        enableSupportLabel: false,
         supportLabelFontColor: "#133440",
         supportLabelFontFamily: "Helvetica",
         supportLabelFontWeight: "bold",
         supportLabelFontSize: 14,
-        supportLabelText: "Given Variables",
+        supportLabelText: "Mix Layer Depth",
         supportLabelYOffset: -1,
         mergeSupportLabelToBorder: false,
         dualSupportLabel: false,
@@ -79,9 +82,9 @@ console.clear();
         topSupportLabelFontFamily: "Helvetica",
         topSupportLabelFontWeight: "bold",
         topSupportLabelFontSize: 14,
-        topSupportLabelText: "Given Variables",
+        topSupportLabelText: "",
         topSupportLabelYOffset: -1,
-        enableSupportLabelBg: true,
+        enableSupportLabelBg: false,
         supportLabelBackgroundColor: "#fff",
         supportLabelBackgroundOpacity: 0.7,
         supportLabelBackgroundHeight: null,
@@ -119,7 +122,10 @@ console.clear();
         respirationEnabled: false,
         respirationFontSize: 14,
         respirationYOffset: 2,
-        respirationUnit: ''
+        respirationUnit: '',
+
+        axisScale: null,
+        xAxis: null,
     };
     Object.assign(defaults, config);
 
@@ -130,13 +136,14 @@ console.clear();
     this.init();
 }
 
-    // initializer
+    // Constructor
     init() {
       	this.setInitialValues();
       	this.drawSvgContainer();
 
         // build the tank
         this.initTower();
+        //this.setXAxis();
         this.setMarkerAttributes();
         this.calculateDimensions();
         this.setGaugeScale();
@@ -156,6 +163,8 @@ console.clear();
 
     // create box
     drawSvgContainer() {
+
+
     	this.width = this.container.outerWidth();
     	this.height = this.container.outerHeight();
     	let viewBoxDef = `0, 0, ${this.width}, ${this.height}`;
@@ -167,8 +176,9 @@ console.clear();
     	.attr("height", "100%")
     	.attr("viewBox", viewBoxDef);
 
+
     	this.bodyGroup = this.svgContainer.append('g')
-    	.attr('id', 'body-group')
+    	.attr('id', 'bodyGroup')
     	.attr('transform', `translate(${this.width/2}, ${this.height/2})`);
     }
 
@@ -179,6 +189,7 @@ console.clear();
     	.range([(this.innerHeight + this.amplitude)/2, -(this.innerHeight + this.amplitude)/2])
     	.clamp(true);
     }
+
 
     getNewHeight () {
     	this.newHeight = this.fillValue === null ? 0 : this.gaugeScale(this.fillValue);
@@ -191,7 +202,12 @@ console.clear();
       this.waveHorizontal = this.waveClip.append('path');
 
       this.backFill = this.bodyGroup.append('rect').attr('id', 'back-fill');
+
+      // add black border
       this.border = this.bodyGroup.append('rect').attr('id', 'border');
+
+
+
       this.behindText = this.bodyGroup.append('text').attr('id', 'behind-text');
       this.behindArrow = this.bodyGroup.append('text').attr('id', 'behind-arrow');
 
@@ -234,8 +250,8 @@ console.clear();
 
   	this.fillColor = this.defaultFillColor;
 
-  	this.topMarkerText = this.topMarkerText === null ? this.fillMaxValue.toString() : this.topMarkerText;
-  	this.bottomMarkerText = this.bottomMarkerText === null ? this.fillMinValue.toString() : this.bottomMarkerText;
+  	this.topMarkerText = this.topMarkerText === null ? 0 + " m. MLD".toString() : this.topMarkerText;
+  	this.bottomMarkerText = this.bottomMarkerText === null ? 100 + " m. MLD".toString() : this.bottomMarkerText;
   	this.topMarkerFontColor = this.tankType === 'tower' ? '#000' : '#fafafa';
   	this.bottomMarkerFontColor = this.tankType === 'tower' ? '#000' : '#fafafa';
   }
@@ -275,71 +291,13 @@ console.clear();
       	this.innerWidth = this.tankWidth - this.borderWidth;
       	this.innerHeight = this.tankHeight - this.borderWidth;
       }
-
-  } else if (this.tankType === 'round') {
-        this.tankWidth = this.width - 2*(this.borderWidth + this.markerLabelWidth); // this is how wide the tank will draw
-        this.tankHeight = this.height - this.borderWidth - this.neckHeight; // this is how tall the round part of the tank will draw
-
-        if ( this.fillPadding !== null && typeof this.fillPadding === "number" && this.fillPadding !== 0 ) {
-          this.innerWidth = this.tankWidth - 2*this.fillPadding; // in case there is a padding, this will be the inner fill part
-          this.innerHeight = this.tankHeight - 2*this.fillPadding; // same as above
-      } else {
-      	this.innerWidth = this.tankWidth - this.borderWidth;
-      	this.innerHeight = this.tankHeight - this.borderWidth;
-      }
-
-        //subtract the support height use the minimum value
-        this.tankRx = this.tankWidth/2;
-        this.tankRy = this.tankHeight/2;
-        this.innerRx = this.innerWidth/2;
-        this.innerRy = this.innerHeight/2;
-    }
+  }
 }
 
+// change red line attributes
 addThresholdMarkers() {
 	let topPixelPosition = this.gaugeScale(this.fillMaxValue) + this.borderWidth;
-	let color = this.tankType === 'round' ? '#fafafa' : '#000';
-
-  // points for max and min curved critical depth values
-  let curvePoints = [[0, 80], [300, 60], [600, 40], [900, 60], [1000, 80]];
-
-
-
-
   
-
-	if (this.tankType === 'round') {
-		this.markerBarGroup.append('line')
-		.attr('id', 'top-edge-marker')
-		.attr('x1', -this.markerLength-4)
-		.attr('x2', 1)
-		.attr('y1', topPixelPosition)
-		.attr('y2', topPixelPosition)
-		.attr('stroke-width', 1)
-		.attr('stroke', color)
-		.attr('stroke-linecap', 'round');
-
-		let bottomPixelPosition = this.gaugeScale(this.fillMinValue) - this.borderWidth;
-		this.markerBarGroup.append('line')
-		.attr('id', 'bottom-edge-marker')
-		.attr('x1', -this.markerLength-4)
-		.attr('x2', 1)
-		.attr('y1', bottomPixelPosition)
-		.attr('y2', bottomPixelPosition)
-		.attr('stroke-width', 1)
-		.attr('stroke', color)
-		.attr('stroke-linecap', 'round');
-
-		this.markerBar = this.markerBarGroup.append('line')
-		.attr('id', 'marker-bar')
-		.attr('x1', 1)
-		.attr('x2', 1)
-		.attr('y1', topPixelPosition)
-		.attr('y2', bottomPixelPosition)
-		.attr('stroke-width', 1)
-		.attr('stroke', color);
-	}
-
 	this.thresholdMarkerPositions = [];
 	this.thresholdTooltips = [];
 	this.thresholdMarkers = [];
@@ -348,15 +306,10 @@ addThresholdMarkers() {
 		let id = this.uniqId();
 		let pixelPosition = this.gaugeScale(threshold.value);
 
+    // change red line attributes of the shape svg ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // line should be path?
 		let marker = this.markerBarGroup.append('line')
 		.datum({ yCoord: pixelPosition, strokeWidth: this.markerWidth, x1: -this.markerLength })
-		.attr('id', `threshold-marker-${id}`)
-		.attr('x1', -this.markerLength)
-		.attr('x2', 0)
-		.attr('y1', pixelPosition)
-		.attr('y2', pixelPosition)
-		.attr('stroke-width', this.markerWidth)
-		.attr('stroke', threshold.alarm ? 'red' : color);
 
 		let tooltip = d3.select(this.container[0]).append('div')
 		.datum({ name: threshold.name, value: threshold.value, type: threshold.type })
@@ -423,73 +376,7 @@ applyFillAttributes() {
 			'stroke-width': this.borderWidth,
 			transform: `translate(-${this.tankWidth/2}, -${this.tankHeight/2})`
 		});
-	} else if (this.tankType === 'round') {
-		this.applyAttributes(this.tankGroup, {
-			transform: `translate(0, -${this.height/2 - this.tankRy - this.borderWidth/2})`
-		});
-
-		this.applyAttributes(this.backFill, {
-			cx: 0,
-			cy: 0,
-			rx: this.innerRx,
-			ry: this.innerRy,
-			fill: this.backFillColor
-		});
-
-		this.applyAttributes(this.waterFill, {
-			datum: { color: this.fillColor },
-			cx: 0,
-			cy: 0,
-			rx: this.innerRx,
-			ry: this.innerRy,
-			fill: this.fillColor
-		});
-
-		this.applyAttributes(this.border, {
-			cx: 0,
-			cy: 0,
-			rx: this.tankRx,
-			ry: this.tankRy,
-			'fill-opacity': 0,
-			stroke: this.borderColor,
-			'stroke-width': this.borderWidth
-		});
-
-		let xCoord = this.getXCoordOfEllipse(this.tankRy/8*7);
-
-		let topRight = `${xCoord} ${this.tankRy/8*7}`;
-		let bottomRight = `${this.tankRx/4} ${this.height - this.tankRy - this.borderWidth/2}`;
-
-		let topLeft = `-${xCoord} ${this.tankRy/8*7}`;
-		let bottomLeft = `-${this.tankRx/4} ${this.height - this.tankRy - this.borderWidth/2}`;
-
-		let topRightInflectionPt = `${this.tankRx/4} ${this.tankRy}`;
-		let bottomRightInflectionPt = `${this.tankRx/4} ${this.tankRy}`;
-		let topLeftInflectionPt = `-${this.tankRx/4} ${this.tankRy}`;
-		let bottomLeftInflectionPt = `-${this.tankRx/4} ${this.tankRy}`;
-
-        let neckFillPathDef = `M${topRight}, C${topRightInflectionPt}, ${bottomRightInflectionPt}, ${bottomRight}, L${bottomLeft}, C${bottomLeftInflectionPt}, ${topLeftInflectionPt}, ${topLeft} Z`;
-        let neckBorderDef = `M${topRight}, C${topRightInflectionPt}, ${bottomRightInflectionPt}, ${bottomRight}, L${bottomLeft}, C${bottomLeftInflectionPt}, ${topLeftInflectionPt}, ${topLeft}`;
-
-        this.applyAttributes(this.neckFill, {
-        	datum: { color: this.fillColor },
-        	d: neckFillPathDef,
-        	fill: this.fillColor,
-        });
-
-        this.applyAttributes(this.neckBorder, {
-        	d: neckBorderDef,
-        	stroke: this.borderColor,
-        	fill: 'transparent',
-        	'stroke-width': this.borderWidth
-        });
-
-        this.applyAttributes(this.neckBackFill, {
-        	d: neckFillPathDef,
-        	fill: this.backFillColor,
-        	'stroke-width': 0
-        });
-    }
+	}
 }
 
 applyTextAttributes() {
@@ -684,7 +571,7 @@ animateNewHeight (val) {
 	let that = this;
 	if ( typeof val !== "undefined" ) {
 		this.newHeight = this.gaugeScale(val);
-		this.fillValue = val;
+		this.fillValue = 100-val;
 	}
 
 	this.tweenWaveVertical();
@@ -967,11 +854,8 @@ repositionElements () {
     	this.topMarkerLabel.attr('transform', topMarkerLabelTrans);
     	this.bottomMarkerLabel.attr('transform', bottomMarkerLabelTrans);
 
-    	if (this.tankType === 'round') {
-    		let markerBarGroupTrans = `translate(${this.innerWidth/2 + this.markerLength + this.markerBarXOffset}, 0)`;
 
-    		this.markerBarGroup.attr('transform', markerBarGroupTrans);
-    	} else if (this.tankType === 'tower') {
+    	if (this.tankType === 'tower') {
     		let markerBarGroupTrans = `translate(${this.innerWidth/2}, 0)`;
 
     		this.markerBarGroup.attr('transform', markerBarGroupTrans);
@@ -1068,7 +952,7 @@ repositionElements () {
     }
 
     updateHeight (val) {
-    	this.animateNewHeight(val);
+    	this.animateNewHeight(100-val);
     }
 
     /* TODO connect light value to change the opacity of the back fill color of the tank.*/ 
@@ -1126,12 +1010,6 @@ repositionElements () {
   	this.backFillColor = color;
   	this.tweenElements();
   }
-/*
-  updateOpacity (opacity) {
-  	this.opacity = opacity;
-  	this.tweenElements();
-  }
-*/
 
   click(callback) {
   	if ( typeof callback !== "function" ) {
@@ -1238,22 +1116,19 @@ let thresholds = [
 	name: 'Critical Depth',
 	value: 40,
 	type: 'Low',
-	alarm: true
+	alarm: false
 }
 ];
 
 /* inital text values */
 let options = {
 	tankType: 'tower',
-	fillValue: 55,
+	fillValue: 50,
 	fillUnit: "m MLD",
 	supportLabelPadding: 5,
 	frontFontColor: "#003B42",
 	thresholds: thresholds,
-  /* Disabled light values, reconnect or edit for changing side panel graphing
-	lightValue: 70,
-	lightValueUnit: 'Light %',
-  */
+
 	lightValueDecimal: 1,
 	respirationDecimal: 1,
 	respirationArrowEnabled: true,
@@ -1273,57 +1148,21 @@ $(".tankWrapper").resizable({
 
 let that = this;
 
-function getNow() {
-	return Date().slice(16, 24);
-}
-
-function dateFromDay(day){
-  var date = new Date(2020, 0);
-  tank.setSupportLabelText(Date(date.setDate(day))); //initialize a date in `year-01-01`
-  var dateDisplay = new Date(2020, 0)
-  return new Date(dateDisplay.setDate(day)); // add the number of days
-}
-
-function getRandom() {
-	return Math.floor(Math.random() * 100);
-}
 tank.click(function () {
 	var randomVal = getRandom();
 	tank.updateHeight(randomVal);
 });
 
-/* Button function initiation */
-function setOneText() {
-	tank.setSupportLabelText(dateFromDay(110));
-}
-function setTwoText() {
-	tank.setSupportLabelText(dateFromDay(110), "bottom label");
-}
-
 function bloomColor() {
-	tank.updateColor("#3fabd9");
-	tank.updateOpacity(0.2);
+	tank.updateColor("#669900");
+
 }
 
-function high() {
-	tank.updateHeight(70);
-}
-function mid() {
-	tank.updateHeight(55);
-}
-function low() {
-	tank.updateHeight(10);
+function noBloomColor() {
+  tank.updateColor("#3fabd4");
+
 }
 
-function setDecimalZero() {
-	tank.setDecimal(0);
-}
-function setDecimalOne() {
-	tank.setDecimal(1);
-}
-function setDecimalTwo() {
-	tank.setDecimal(2);
-}
 function tower() {
 	tank.tankType = 'tower';
 	delete tank.topMarkerFontColor;

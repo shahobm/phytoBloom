@@ -35,6 +35,9 @@
 			ol, ul {
 				list-style: none;
 			}
+			p{
+				color: #ffffff;
+			}
 
 			blockquote, q {
 				quotes: none;
@@ -70,10 +73,15 @@
 				-ms-appearance: none;
 				appearance: none;
 			}
-
+			.padding{
+				padding-right: 20px;
+			}
 
 			/* tank */
-
+ /* MADE FOR text at bottom of index*/
+#center{
+	text-align: center;
+}
 
 
 			/* Slider */
@@ -172,7 +180,7 @@
 
 			}
 
-			@media screen and (max-width: 1280px) {
+			@media screen and (max-width: 1000px) {
 
 				body, input, select, textarea {
 					font-size: 12pt;
@@ -223,6 +231,10 @@
 				margin: 0 0 0.5em 0;
 			}
 
+			h1 {
+					text-align: center;
+			}
+
 			h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
 				color: inherit;
 				text-decoration: none;
@@ -258,6 +270,8 @@
 
 			h2 {
 				font-size: 1.75em;
+				/*ADDED LINE BELOW*/
+				text-align: center;
 			}
 
 			h3 {
@@ -860,7 +874,7 @@
 
 			}
 
-			@media screen and (max-width: 1280px) {
+			@media screen and (max-width: 1000px) {
 
 				.row {
 					display: flex;
@@ -1862,6 +1876,7 @@
 			}
 
 			/* Button */
+
 
 			input[type="submit"],
 			input[type="reset"],
@@ -3056,7 +3071,7 @@
 				-webkit-transition: opacity 1s ease;
 				-ms-transition: opacity 1s ease;
 				transition: opacity 1s ease;
-				background: rgba(49, 36, 80, 0.9);
+				background: rgb(234, 235, 237, 0.9);
 				content: '';
 				display: block;
 				height: 100%;
@@ -3250,7 +3265,7 @@
 
 			}
 
-			@media screen and (max-width: 1280px) {
+			@media screen and (max-width: 1000px) {
 
 				.wrapper > .inner {
 					width: 100%;
@@ -3314,7 +3329,7 @@
 				height: 100vh;
 			}
 
-			@media screen and (max-width: 1280px) {
+			@media screen and (max-width: 1000px) {
 
 				.wrapper.fullscreen {
 					min-height: calc(100vh - 2.5em);
@@ -3496,7 +3511,7 @@
 				margin-left: 18em;
 			}
 
-			@media screen and (max-width: 1280px) {
+			@media screen and (max-width: 1000px) {
 
 				#sidebar + #wrapper {
 					margin-left: 0;
@@ -3523,7 +3538,7 @@
 				margin-left: 18em;
 			}
 
-			@media screen and (max-width: 1280px) {
+			@media screen and (max-width: 1000px) {
 
 				#sidebar + #wrapper + #footer {
 					margin-left: 0;
@@ -3828,7 +3843,7 @@
 				opacity: 0;
 			}
 
-			@media screen and (max-width: 1280px) {
+			@media screen and (max-width: 1000px) {
 
 				#sidebar {
 					height: 3.5em;
@@ -3883,9 +3898,10 @@
 					padding: 0;
 				}
 
+				/*This was #b74e91*/
 				#sidebar nav a:after {
 					background-image: none;
-					background-color: #b74e91;
+					background-color: #F0FFFF;
 				}
 
 			}
@@ -3928,7 +3944,7 @@
 
 			}
 
-			@media screen and (max-width: 1280px) {
+			@media screen and (max-width: 1000px) {
 
 				#intro {
 					background-attachment: scroll;
@@ -3937,4 +3953,297 @@
 			}
 
 
+			/*   BUBBLE STUFF  */
 
+			.container {
+				position: relative;
+				display: flex;
+				align-content: center;
+				justify-content: center;
+				background: {
+					image: linear-gradient(to bottom,  #00c9ff 0%, #92fe9d 100%), url(https://images.unsplash.com/photo-1502726299822-6f583f972e02);
+					blend-mode: multiply;
+					size: cover;
+				}
+				overflow: hidden;
+			}
+
+			.bubbles-container {
+			    position: absolute;
+			    top: 0;
+			    left: 50%;
+			    width: 100%;
+			    max-width: 15rem;
+			    transform: translateX(-50%);
+				opacity: 0.75;
+				overflow: visible;
+			}
+
+			.bubbles {
+				width: 100%;
+				height: auto;
+
+				circle {
+					stroke: white;
+					fill: none;
+				}
+
+				> g > g:nth-of-type(3n) circle {
+					stroke: #87f5fb;
+				}
+
+				> g > g:nth-of-type(4n) circle {
+					stroke: #8be8cb;
+				}
+
+			}
+
+			.bubbles-large {
+				overflow: visible;
+
+				> g {
+					transform: translateY(2048px);
+					opacity: 0;
+					will-change: transform, opacity;
+				}
+
+				g:nth-of-type(1) {
+					animation: up 6.5s infinite;
+
+					g {
+						transform: translateX(350px);
+					}
+
+					circle {
+						animation: wobble 3s infinite ease-in-out;
+					}
+
+				}
+
+				g:nth-of-type(2) {
+					animation: up 5.25s 250ms infinite;
+
+					g {
+						transform: translateX(450px);
+					}
+
+					circle {
+						animation: wobble 3s infinite ease-in-out;
+					}
+
+				}
+
+				g:nth-of-type(3) {
+					animation: up 6s 750ms infinite;
+
+					g {
+						transform: translateX(700px);
+					}
+
+					circle {
+						animation: wobble 3s infinite ease-in-out;
+					}
+
+				}
+
+				g:nth-of-type(4) {
+					animation: up 5.5s 1.5s infinite;
+
+					g {
+						transform: translateX(500px);
+					}
+
+					circle {
+						animation: wobble 3s infinite ease-in-out;
+					}
+
+				}
+
+				g:nth-of-type(5) {
+					animation: up 6.5s 4s infinite;
+
+					g {
+						transform: translateX(675px);
+					}
+
+					circle {
+						animation: wobble 3s infinite ease-in-out;
+					}
+
+				}
+
+			}
+
+			.bubbles-small {
+				overflow: visible;
+
+				> g {
+					transform: translateY(2048px);
+					opacity: 0;
+					will-change: transform, opacity;
+				}
+
+				g circle {
+					transform: scale(0);
+				}
+
+				g:nth-of-type(1) {
+					animation: up 5.25s infinite;
+
+					g {
+						transform: translateX(350px);
+					}
+
+					circle {
+						animation: wobble 3s infinite ease-in-out;
+					}
+
+				}
+
+				g:nth-of-type(2) {
+					animation: up 5.75s infinite;
+
+					g {
+						transform: translateX(750px);
+					}
+
+					circle {
+						animation: wobble 3s infinite ease-in-out;
+					}
+
+				}
+
+				g:nth-of-type(3) {
+					animation: up 5.25s 250ms infinite;
+
+					g {
+						transform: translateX(350px);
+					}
+
+					circle {
+						animation: wobble 3s 250ms infinite ease-in-out;
+					}
+
+				}
+
+				g:nth-of-type(4) {
+					animation: up 5.75s 325ms infinite;
+
+					g {
+						transform: translateX(180px);
+					}
+
+					circle {
+						animation: wobble 3s 325ms infinite ease-in-out;
+					}
+
+				}
+
+				g:nth-of-type(5) {
+					animation: up 6s 125ms infinite;
+
+					g {
+						transform: translateX(350px);
+					}
+
+					circle {
+						animation: wobble 3s 250ms infinite ease-in-out;
+					}
+
+				}
+
+				g:nth-of-type(6) {
+					animation: up 5.13s 250ms infinite;
+
+					g {
+						transform: translateX(650px);
+					}
+
+					circle {
+						animation: wobble 3s 125ms infinite ease-in-out;
+					}
+
+				}
+
+				g:nth-of-type(7) {
+					animation: up 6.25s 350ms infinite;
+
+					g {
+						transform: translateX(480px);
+					}
+
+					circle {
+						animation: wobble 3s 325ms infinite ease-in-out;
+					}
+
+				}
+
+				g:nth-of-type(8) {
+					animation: up 7s 200ms infinite;
+
+					g {
+						transform: translateX(330px);
+					}
+
+					circle {
+						animation: wobble 3s 325ms infinite ease-in-out;
+					}
+
+				}
+
+				g:nth-of-type(9) {
+					animation: up 6.25s 233ms infinite;
+
+					g {
+						transform: translateX(230px);
+					}
+
+					circle {
+						animation: wobble 3s 275ms infinite ease-in-out;
+					}
+
+				}
+
+				g:nth-of-type(10) {
+					animation: up 6s 900ms infinite;
+
+					g {
+						transform: translateX(730px);
+					}
+
+					circle {
+						animation: wobble 2s 905ms infinite ease-in-out;
+					}
+
+				}
+
+			}
+
+			@keyframes wobble {
+
+				33% {
+					transform: translateX(-50px);
+				}
+
+				66% {
+					transform: translateX(50px);
+				}
+
+			}
+
+			@keyframes up {
+
+				0% {
+					opacity: 0;
+				}
+
+				10%, 90% {
+					opacity: 1;
+				}
+
+				100% {
+					opacity: 0;
+					transform: translateY(-1024px);
+				}
+
+			}
