@@ -9,9 +9,6 @@
 	<link rel="shortcut icon" type="image/x-icon" href="images/seaweed.png"/>
 	<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 
-
-
-
 	<link rel="icon" href="images/favicon.ico" type="image/gif">
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="
@@ -47,26 +44,11 @@
 							<p>Intensity: <span id="lightVal"></span></p>
 						</div></li>
 
-					<!-- Date change
-					<li><a>Date</a>
-						<div class="slidecontainer">
-							<input type="range" min="1" max="365" value="50" class="slider" id="dateRange">
-							<p>Day: <span id="dateVal"></span></p>
-						</div></li> -->
-
-
 					<li><a>Respiration</a>
 						<div class="slidecontainer">
 							<input type="range" min="1" max="100" value="50" class="slider" id="respirationRange">
 							<p>Respiration %: <span id="respirationVal"></span></p>
 						</div></li>
-
-					<!-- Depth change / Mixture
-					<li><a>Depth Change</a>
-						<div class="slidecontainer">
-							<input type="range" min="1" max="100" value="50" class="slider" id="depthRange">
-							<p>Depth (meters): <span id="depthVal"></span></p>
-						</div></li> -->
 
 				</ul>
 			</nav>
@@ -84,16 +66,6 @@
 
 							<!-- The tank -->
 							<div class="tankWrapper"></div>
-							<!--
-							<svg width="100%" height="300" style="position: absolute; top: 55px;">
-							  <path d="M00,200
-							           Q250,100 400,200
-							           T1040 200"
-							    fill="none" stroke="#0000" stroke-width="2px" stroke-dasharray="4" />
-							</svg>
-							-->
-
-
 
 							<div style="width: 100%; background-color: white;">
 								<canvas id="canvas"></canvas>
@@ -108,29 +80,6 @@
 							<br>
 
 							<p>Experiment 3 examines a scenario with a significantly shallow water level where the seafloor acts as a mixing layer depth for the system and allows irradiance and respiration levels to be changed. Although this mixing layer depth cannot be changed, the irradiance and respiration levels can be selected to show a bloom.</p>
-
-<!--
-							<button id="onetext" onclick="setOneText()">Show given variable</button>
-							<button id="twotext" onclick="setTwoText()">Show two variables</button>
-							<br>
-							<br>
-							<button id="high" onclick="high()">High</button>
-							<button id="mid" onclick="mid()">Mid</button>
-							<button id="low" onclick="low()">Low</button>
-							<br>
-							<br>
-
-							<button onclick="setDecimalZero()">No Decimal</button>
-							<button onclick="setDecimalOne()">One Decimal</button>
-							<button onclick="setDecimalTwo()">Two Decimal</button>
-
-							<br>
-							<br>
-							<br>
-
-
-							<button class="pull-left" onclick="tank3Solution()">Check Solution</button>-->
-							<!--<button id="color" onclick="bloomColor()">Show Bloom</button>-->
 
 
 							<h3 style="margin-top: 10%;" id="response"></h3>
@@ -157,29 +106,19 @@
 					<script src="https://d3js.org/d3.v5.min.js"></script>
 
 					<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/5.2.0/math.js"></script>
+					<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
 
 					<script src="assets/js/jquery.min.js"></script>
 					<script src="assets/js/jquery.scrollex.min.js"></script>
 					<script src="assets/js/jquery.scrolly.min.js"></script>
 					<script src="assets/js/browser.min.js"></script>
 					<script src="assets/js/breakpoints.min.js"></script>
-					<script src="assets/js/util.js"></script>
+
 					<script src="assets/js/main.js"></script>
 					<script src="scripts/slider.js"></script>
-					<script src="scripts/graph.js"></script>
-
-					<!-- old graph -->
-					<script type="text/javascript" src="scripts/tank3.js"></script>
-					<!--<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>-->
-
-					<!-- New graph -->
-					<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
-					<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js"></script>
+					<script src="scripts/tank3.js"></script>
 					<script src="scripts/utils.js"></script>
 					<script src="scripts/chart3.js"></script>
-
-					<!-- <script src="https://designmodo.com/demo/interactivegraph/js/jquery.flot.min.js"></script>
-					<script src="graphs/graph.js"></script>-->
 
 				</body>
 				</html>

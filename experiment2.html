@@ -47,21 +47,6 @@
 
 					<li><a href="index.html" style="margin-bottom: 400px;">Go Back</a></li>
 
-					<!--Light
-					<li><a>Light</a>
-						<div class="slidecontainer">
-							<input type="range" min="1" max="100" value="70" class="slider" id="lightRange">
-							<p>Intensity: <span id="lightVal"></span></p>
-						</div></li>-->
-
-
-					<!-- Date Change
-					<li><a>Date</a>
-						<div class="slidecontainer">
-							<input type="range" min="1" max="365" value="50" class="slider" id="dateRange">
-							<p>Day: <span id="dateVal"></span></p>
-						</div></li>-->
-
 						<!-- Depth change / Mixture-->
 					<li><a>Mix Layer Depth</a>
 						<div class="slidecontainer">
@@ -91,20 +76,6 @@
 							<br>
 							<br>
 
-
-							<!--<img style="width: 100%; margin-top: -50px;" src="images/xAxis.png">-->
-
-							<!--
-								<svg width="1000" height="100">
-									<path transform="translate(300, 50, 0)" />
-								</svg>
-
-							<div class="sidePanelWrapper">
-							</div>
-							-->
-
-							<!--<div id="chartContainer" style="height: 370px; width: 60%; margin: 0px auto; float: right; margin-left: 12px;"></div>-->
-
 							<div style="width: 100%; background-color: white;">
 								<canvas id="canvas"></canvas>
 							</div>
@@ -125,36 +96,9 @@
 
 							<img style="width: 55%; border: 1px solid black; float: left; margin-top: 15px; margin-right: 20px;"  src="images/scenario2Side.png">
 							<br>
-
-
 							<br>
-
-
-<!--
-							<button id="onetext" onclick="setOneText()">Show given variable</button>
-							<button id="twotext" onclick="setTwoText()">Show two variables</button>
-							<br>
-							<br>
-							<button id="high" onclick="high()">High</button>
-							<button id="mid" onclick="mid()">Mid</button>
-							<button id="low" onclick="low()">Low</button>
-							<br>
-							<br>
-
-							<button onclick="setDecimalZero()">No Decimal</button>
-							<button onclick="setDecimalOne()">One Decimal</button>
-							<button onclick="setDecimalTwo()">Two Decimal</button>
-
-							<br>
-							<br>
-							<br>
-							<button class="pull-left" onclick="tank2Solution()">Check Solution</button>-->
-							<!-- <button id="color" onclick="bloomColor()">Show Bloom</button> -->
-
 
 							<h3 style="margin-top: 10%;" id="response"></h3>
-
-
 
 						</div>
 					</section>
@@ -168,49 +112,24 @@
 						</div>
 					</footer>
 
-<!--
-					<script>
-						var data = [[0, 100], [200,30], [400, 0]]
-
-						var lineGenerator = d3.line()
-							.curve(d3.curveNatural);
-						var pathString = lineGenerator(data);
-
-						d3.select('path')
-							.attr('d', pathString);
-
-
-					</script>
--->
 					<!-- Scripts -->
 					<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
 					<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
 					<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 					<script src="https://d3js.org/d3.v5.min.js"></script>
 					<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/5.2.0/math.js"></script>
-					
+					<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
 
 					<script src="assets/js/jquery.min.js"></script>
 					<script src="assets/js/jquery.scrollex.min.js"></script>
 					<script src="assets/js/jquery.scrolly.min.js"></script>
 					<script src="assets/js/browser.min.js"></script>
 					<script src="assets/js/breakpoints.min.js"></script>
-					<script src="assets/js/util.js"></script>
+
 					<script src="assets/js/main.js"></script>
 					<script src="scripts/slider.js"></script>
-					<script src="scripts/graph.js"></script>
-
-					<!-- old graph -->
-					<script type="text/javascript" src="scripts/tank2.js"></script>
-					<!--<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>-->
-
-					<!-- New graph -->
-					<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
-					<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js"></script>
-					<script src="scripts/utils.js"></script>
+					<script src="scripts/tank2.js"></script>
 					<script src="scripts/chart2.js"></script>
-
-
 
 				</body>
 				</html>
